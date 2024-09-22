@@ -1,0 +1,30 @@
+0-20
+    Der elementare Feind wirkt instabil, seine Form flackert und zittert, als ob er Mühe hätte, sich zu manifestieren.
+    Ein leises Grollen entweicht dem Elementar, während seine Bewegungen unkoordiniert und schwach sind.
+    Die Essenz des Elements scheint zu schwinden, und der Elementar kämpft gegen das Gefühl der Auflösung an.
+    Verzweiflung spiegelt sich in den wogenden Formen des Gegners wider, während er kraftlos nach jeder Attacke schwankt.
+    Der elementare Feind ächzt unter der Belastung, seine Form wirkt brüchig und instabil.
+20-40
+    Der elementare Gegner wirkt geschwächt, sein Erscheinen ist weniger lebhaft, aber er kämpft dennoch mit einer gewissen Hartnäckigkeit.
+    Trotz der Erosion seiner Gestalt kämpft der Elementar weiter, sein Angriff ist schwächer, aber noch immer von einer inneren Entschlossenheit getrieben.
+    Der Elementar zeigt deutliche Spuren von Instabilität, doch ein Funke seiner ursprünglichen Energie glimmt noch in seinem Kern.
+    Verletzungen zeichnen den Elementar, aber er hält hartnäckig an seiner Existenz fest.
+    Die Kraft des Elements schwindet, doch der Blick des Elementars ist von einer unnachgiebigen Entschlossenheit geprägt.
+40-60
+    Der elementare Krieger wirkt trotz einiger Verluste immer noch bedrohlich, seine Angriffe sind präzise, und seine Form strahlt eine dunkle Entschlossenheit aus.
+    Zwar zeigen sich Spuren von Erosion an seinem Wesen, doch der Elementar bewahrt eine gewisse Majestät in seiner Erscheinung.
+    Der Gegner ist merklich getroffen, aber die inneren Kräfte des Elements halten ihn zusammen.
+    Die Essenz des Todes umgibt den Elementar, aber er bewegt sich weiterhin mit einer gewissen Anmut, als ob die Erosion keine Macht über ihn hätte.
+    Der Elementar scheint kaum beeindruckt von den bisherigen Angriffen, seine Entschlossenheit ist unerschütterlich.
+60-80
+    Der Elementar steht stolz und unberührt da, seine Form ist stabil, und sein Blick strahlt eine düstere Überlegenheit aus.
+    Trotz einiger Risse in seiner Gestalt zeigt der Elementar keinerlei Anzeichen von Schwäche, sein Angriff ist kraftvoll und präzise.
+    Der elementare Gegner wirkt nahezu unberührt, seine Erscheinung ist majestätisch, und sein Blick vermittelt eine bedrohliche Sicherheit.
+    Trotz des andauernden Kampfes scheint der Elementar unbeeindruckt, seine Haltung und Bewegungen verraten keinerlei Schwäche.
+    Die Essenz des Elements strahlt immer noch stark, jede seiner Bewegungen vermittelt eine Aura von Unverwundbarkeit.
+80-100
+    Der elementare Feind steht in seiner vollen schrecklichen Pracht da, seine Energie leuchtet vor überwältigender Kraft, und seine Form pulsiert vor unheimlicher Macht.
+    Jeder Angriff scheint wirkungslos gegen die widerstandsfähige Gestalt des Elementars zu sein, seine Aura der Unverwundbarkeit ist fast greifbar.
+    Der elementare Gegner bewegt sich mit der Anmut eines Naturgewitters, unberührt und mächtig, als ob die Elemente selbst ihm gehorchen würden.
+    Der Anblick des elementaren Kriegers ist entmutigend, seine Gestalt strahlt Überlegenheit aus, als ob er unzerstörbar wäre.
+    Trotz des tosenden Kampfes ist der Elementar nahezu unberührt, seine finsteren Formen blicken auf seine Feinde herab, und sein Lächeln zeigt eine makabre Freude am Zerstören.

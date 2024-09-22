@@ -1,0 +1,30 @@
+0-20
+Das Tier taumelt schwerfällig, seine Bewegungen sind unkoordiniert und von Erschöpfung geprägt.
+Ein leises Winseln entweicht dem Tier, seine Augen spiegeln Verzweiflung und Schmerz wider.
+Die einst stolzen Schritte des Tieres sind nun zögerlich, und sein Körper zittert vor Erschöpfung.
+Mit letzter Kraft versucht das Tier, sich zu verteidigen, doch seine Angriffe sind schwach und wenig überlegt.
+Ein trauriges Jaulen erklingt, während das Tier sich mühsam auf den Beinen hält, die Lebenskraft schwindet rapide.
+20-40
+    Das Tier atmet schwer, sein Gang ist langsamer und unsicher.
+    Schmerzenslaute begleiten die Anstrengungen des Tiers, das nun deutlich geschwächt ist.
+    In den Augen des Tiers spiegelt sich Schmerz, aber auch ein letzter Funken Kampfgeist wider.
+    Das Tier zeigt erste Anzeichen von Erschöpfung, seine Angriffe sind weniger präzise und kraftvoll.
+    Die Bewegungen des Tiers sind schwerfällig, aber es weicht noch nicht zurück, der Kampf ist noch nicht verloren.
+40-60
+    Das Tier bewegt sich geschickt und mit Selbstvertrauen, bereit, seine Gegner herauszufordern.
+    Trotz einiger Blessuren behält das Tier seine Kampfeslust, der Blick ist entschlossen und fokussiert.
+    Ein stolzes Brüllen ertönt, als das Tier seine Stärke demonstriert und sich gegen die Angriffe wehrt.
+    Das Tier zeigt kaum Anzeichen von Schwäche, seine Angriffe sind weiterhin kraftvoll und gut koordiniert.
+    Die Augen des Tiers funkeln vor Energie, es ist bereit, den Kampf weiterhin energisch zu führen.
+60-80
+    Das Tier zeigt keinerlei Ermüdungserscheinungen, seine Bewegungen sind fließend und energisch.
+    Stolz und Selbstsicherheit strahlen aus den Augen des Tiers, es trotzt den Herausforderungen.
+    Jeder Angriff des Tiers ist gut durchdacht und effizient, es nutzt seine Stärke geschickt aus.
+    Ein kräftiges Brüllen hallt durch die Umgebung, während das Tier seine Überlegenheit zeigt.
+    Das Fell oder die Haut des Tiers glänzt gesund und kräftig, es ist in bester Verfassung für den Kampf.
+80-100
+    Das Tier präsentiert sich majestätisch, in voller Pracht und ohne Anzeichen von Verletzungen.
+    Ein kraftvolles Brüllen erschüttert die Umgebung, das Tier herrscht über das Schlachtfeld.
+    Die Bewegungen des Tiers sind anmutig und mühelos, es agiert mit absoluter Selbstsicherheit.
+    Die Augen des Tiers strahlen Stärke und Dominanz aus, es ist bereit, jeden Herausforderer zu überwinden.
+    Jeder Angriff des Tiers ist eine beeindruckende Demonstration seiner Macht, kaum ein Gegner kann standhalten.

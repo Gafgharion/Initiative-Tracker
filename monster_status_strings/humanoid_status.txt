@@ -1,0 +1,30 @@
+0-20
+Der feindliche Krieger zittert vor Erschöpfung, das Blut tropft aus mehreren Wunden, und jeder Atemzug scheint eine Herausforderung zu sein.
+Der Gegner taumelt, sein Gesicht ist von Schmerzen verzerrt, und die Kraft verlässt langsam seinen Körper.
+Der Verletzte kämpft verzweifelt, sein Atem rasselnd, und er klammert sich mühsam an seine Waffe, um auf den Beinen zu bleiben.
+Ein letztes Aufbäumen des Feindes, die Augen glasig vor Schmerz, während er sich schwankend auf den Beinen hält.
+Der Angreifer ist am Rand der Erschöpfung, jede Bewegung scheint eine Qual zu sein, und er stöhnt vor jeder Anstrengung.
+20-40
+Der Feind keucht schwer, Blutspuren bedecken seine Rüstung, und seine Angriffe sind unpräzise und schwach.
+Der Angreifer zeigt erste Anzeichen von Erschöpfung, sein Atem ist beschleunigt, und seine Bewegungen sind nicht mehr so flüssig wie zuvor.
+Der Widersacher blinzelt schmerzverzerrt, seine Körperhaltung ist angeschlagen, und er sucht nach einem Moment der Erholung.
+Der Verletzte versucht, seine Wunden zu ignorieren, aber sein Griff um die Waffe ist schwächer, und die Konzentration lässt nach.
+Die Energie des Angreifers lässt nach, sein Gesichtsausdruck zeigt Anzeichen von Schmerz, aber er kämpft noch tapfer weiter.
+40-60
+Der Krieger kämpft mit Ausdauer, seine Bewegungen sind geschmeidig, und sein Blick ist noch entschlossen.
+Der Feind zeigt leichte Ermüdung, aber sein Kampfgeist ist noch intakt, und er konzentriert sich auf seine Angriffe.
+Der Angreifer wirkt noch relativ unversehrt, mit nur geringfügigen Blessuren, und seine Angriffe sind präzise und kraftvoll.
+Der Gegner hält sich wacker, sein Atem ist gleichmäßig, und er bleibt wachsam gegenüber möglichen Gefahren.
+Der Verletzte zeigt kaum Anzeichen von Schwäche, sein Blick ist entschlossen, und er scheint bereit, weiterhin standzuhalten.
+60-80
+Der Krieger wirkt frisch und voller Energie, seine Angriffe sind kraftvoll, und sein Blick strahlt Selbstvertrauen aus.
+Der Feind zeigt keine offensichtlichen Verletzungen, sein Gang ist fest, und er wirkt bereit für weitere Auseinandersetzungen.
+Der Angreifer präsentiert sich mit Selbstbewusstsein, seine Rüstung ist nahezu makellos, und er strahlt Kampfbereitschaft aus.
+Der Widersacher zeigt keine Schwäche, seine Bewegungen sind geschickt, und er hat seinen Fokus auf den Kampf gerichtet.
+Der Verletzte steht noch stark da, ohne erkennbare Blessuren, und sein Blick verrät, dass er noch viel Kraft für den Kampf hat.
+80-100
+Der Krieger steht mit voller Kraft da, ohne Anzeichen von Erschöpfung, und sein Blick signalisiert Überlegenheit.
+Der Feind präsentiert sich in bester Verfassung, seine Waffen glänzen, und er strahlt Zuversicht und Kampfeslust aus.
+Der Angreifer zeigt keinerlei Ermüdungserscheinungen, sein Blick ist scharf, und er wirkt bereit, die Schlacht zu dominieren.
+Der Widersacher scheint unverwundbar, ohne jegliche Anzeichen von Verletzungen, und seine Bewegungen sind geschmeidig.
+Der Verletzte präsentiert sich nahezu makellos, mit einer Aura von Stärke und Selbstsicherheit, die seine volle Gesundheit widerspiegelt.

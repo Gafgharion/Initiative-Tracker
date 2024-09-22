@@ -1,0 +1,30 @@
+0-20
+    Die leblosen Augen des Untoten blitzen vor Verzweiflung und Schwäche auf, seine Gliedmaßen zittern vor Erschöpfung.
+    Ein markerschütterndes Stöhnen entweicht dem untoten Körper, seine Bewegungen werden unkoordiniert und zittrig.
+    Der morbide Geruch des Todes wird intensiver, der Untote scheint auf der Schwelle der Niederlage zu balancieren, sein Wille jedoch noch nicht gebrochen.
+    Verzweiflung spiegelt sich in den toten Augen des Gegners wider, während sein Körper kraftlos nach jedem Angriff taumelt.
+    Der untote Feind ächzt qualvoll, seine Form zittert vor der Aussicht auf sein nahendes Ende.
+20-40
+    Der untote Gegner wirkt geschwächt, sein Gang ist unsicher, und sein Stöhnen drückt sowohl Schmerz als auch Widerstand aus.
+    Trotz der Verwundungen kämpft der Untote weiter, sein Angriff ist zwar schwächer, aber noch immer von einer zähen Entschlossenheit getrieben.
+    Der untote Körper weist klaffende Wunden auf, doch der unheilige Funke des Überlebens glimmt noch in seinen kalten Augen.
+    Verletzungen zeichnen den Untoten, aber seine knöcherne Hand klammert sich hartnäckig an das verbleibende Leben.
+    Die Kraft des Untoten schwindet, doch er starrt seinen Gegnern mit einem unnachgiebigen Blick an, der von übernatürlicher Entschlossenheit zeugt.
+40-60
+    Der untote Krieger wirkt trotz einiger Blessuren immer noch bedrohlich, seine Angriffe sind präzise und seine Augen funkeln mit dunkler Entschlossenheit.
+    Zwar zeigen sich Spuren von Kampf auf seinem Leichnam, doch der Untote bewahrt eine gewisse Eleganz in seinen Bewegungen.
+    Der Gegner ist merklich getroffen, aber sein eiserner Wille strahlt durch die zerrissenen Gewänder hindurch.
+    Die Aura des Todes umgibt den Untoten, aber er bewegt sich weiterhin mit unheimlicher Agilität, als ob die Verwesung keine Macht über ihn hätte.
+    Der Untote scheint kaum beeindruckt von den bisherigen Angriffen, sein unerschütterlicher Blick durchbohrt seine Feinde.
+60-80
+    Der Untote steht stolz und unversehrt da, seine Knochen knirschen vor Kraft, und sein Blick strahlt eine düstere Überlegenheit aus.
+    Trotz einiger Kratzer auf seiner kalten Haut zeigt der Untote keinerlei Anzeichen von Schwäche, sein Angriff ist kraftvoll und präzise.
+    Der untote Gegner wirkt nahezu unberührt, seine Körperteile bewegen sich geschmeidig und sein Blick vermittelt eine bedrohliche Sicherheit.
+    Trotz des anhaltenden Kampfes scheint der Untote unbeirrt, seine Haltung und Bewegungen verraten keinerlei Ermüdung.
+    Die Lebenskraft des Untoten strahlt immer noch stark, jede seiner Bewegungen vermittelt eine Aura von Unverwundbarkeit.
+80-100
+    Der untote Feind steht in seiner vollen schrecklichen Pracht da, seine Augen leuchten vor finsterer Energie, und sein Körper pulsiert vor unheiliger Kraft.
+    Jeder Angriff prallt scheinbar wirkungslos von der widerstandsfähigen Hülle des Untoten ab, seine Aura der Unverwundbarkeit ist fast greifbar.
+    Der untote Gegner bewegt sich mit der Grazie eines Raubtiers, unversehrt und mächtig, als ob der Tod selbst ihm gehorchen würde.
+    Der Anblick des untoten Kriegers ist entmutigend, seine Gestalt strahlt Überlegenheit aus, als ob er unsterblich wäre.
+    Trotz des tobenden Kampfes ist der Untote nahezu unberührt, seine finsteren Augen blicken auf seine Feinde herab, und sein Lächeln zeigt eine makabre Freude am Zerstören.

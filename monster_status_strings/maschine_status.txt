@@ -1,0 +1,30 @@
+0-20
+    Das Maschinenwesen ächzt und stöhnt metallisch, seine Bewegungen sind schwerfällig, als ob die Energiereserven kurz vor dem Erlöschen stehen.
+    Funken sprühen aus den beschädigten Gelenken des Maschinenwesens, dessen Systeme nur noch sporadisch funktionieren. Es wirkt labil und instabil.
+    Die äußere Panzerung des Maschinenwesens ist stark beschädigt, und es gibt unheilvolle Geräusche von überhitzten Komponenten. Es kämpft sichtlich darum, auf den Beinen zu bleiben.
+    Warnlichter blitzen auf der Anzeigetafel des Maschinenwesens auf, begleitet von Alarmtönen. Seine Angriffe wirken unkoordiniert, als ob es jeden Moment den Kampf aufgeben könnte.
+    Das Maschinenwesen taumelt bedrohlich, seine Kampfprogramme sind stark beeinträchtigt. Es scheint nur noch eine Frage der Zeit zu sein, bis es vollständig zusammenbricht.
+20-40
+    Das Maschinenwesen zeigt erste Anzeichen von Schwäche, seine Angriffe sind weniger präzise, und es reagiert langsamer auf die Umgebung.
+    Rauch tritt aus einigen Belüftungsschlitzen des Maschinenwesens aus, während es weiterkämpft. Seine Bewegungen sind weniger flüssig, aber es gibt noch immer eine gewisse Entschlossenheit.
+    Einige seiner Waffensysteme fallen aus, aber das Maschinenwesen kämpft weiterhin mit stoischer Entschlossenheit. Es versucht, seine begrenzten Ressourcen effektiv einzusetzen.
+    Das Maschinenwesen gibt unregelmäßige Warntöne von sich, während es kämpft. Es scheint, als ob es sich auf seine verbleibenden Fähigkeiten konzentriert, um den Kampf zu überstehen.
+    Funken und Blitze zucken um das Maschinenwesen herum, aber es zeigt noch immer eine gewisse Kampfbereitschaft. Seine Programme passen sich an die kritische Situation an.
+40-60
+    Das Maschinenwesen bewegt sich mit einer gewissen Effizienz, aber es zeigt auch erste Anzeichen von Ermüdung. Seine Angriffe sind solide, aber nicht mehr so überzeugend.
+    Die äußere Panzerung des Maschinenwesens weist einige Kratzer und Dellen auf, aber es behält eine offensive Haltung bei. Es analysiert die Situation und passt seine Strategie an.
+    Lichter auf der Anzeigetafel des Maschinenwesens leuchten stabil. Es wirkt, als ob es noch über ausreichende Ressourcen verfügt, um den Kampf fortzusetzen, aber die Belastung ist spürbar.
+    Das Maschinenwesen zeigt keine offensichtlichen Anzeichen von Schwäche. Es agiert mit kühler Effizienz und scheint bereit zu sein, den Kampf auf lange Sicht fortzusetzen.
+    Obwohl einige Teile des Maschinenwesens sichtbare Schäden aufweisen, wirkt es noch immer voll funktionsfähig. Seine Angriffe sind präzise, und es behält die Kontrolle über das Schlachtfeld.
+60-80
+    Das Maschinenwesen wirkt stabil und behält eine offensive Haltung bei. Seine Bewegungen sind flüssig, und es analysiert die Gegner mit kalter Präzision.
+    Die äußere Panzerung des Maschinenwesens ist weitgehend intakt, und es zeigt keine Anzeichen von Schwäche. Es behält die Oberhand im Kampf und setzt seine Ressourcen mit Bedacht ein.
+    Lichter auf der Anzeigetafel des Maschinenwesens leuchten hell und stabil. Es agiert mit vollem Selbstvertrauen und scheint bereit, jede Herausforderung anzunehmen.
+    Das Maschinenwesen zeigt keinerlei Ermüdungserscheinungen. Seine Angriffe sind kraftvoll und gut koordiniert, und es behält die totale Kontrolle über seine Systeme.
+    Das Maschinenwesen gibt keinerlei Anzeichen von Schwäche preis. Es bewegt sich mit eleganter Präzision und setzt seine volle Kampfkraft ein, als ob es noch unberührt wäre.
+80-100
+    Das Maschinenwesen steht in voller Kampfbereitschaft da, ohne sichtbare Schäden. Seine Angriffe sind energiegeladen und zielsicher, und es behält die volle Kontrolle über das Schlachtfeld.
+    Die äußere Panzerung des Maschinenwesens glänzt im Licht, ohne den kleinsten Kratzer. Es zeigt keinerlei Schwächen und behält eine dominante Position im Kampf.
+    Lichter auf der Anzeigetafel des Maschinenwesens leuchten in voller Intensität. Es agiert mit optimaler Effizienz und scheint in der Lage zu sein, den Kampf noch lange fortzusetzen.
+    Das Maschinenwesen zeigt keinerlei Anzeichen von Stress oder Belastung. Jeder seiner Bewegungen ist durchdacht und wirkungsvoll, und es behält die totale Kontrolle über seine Ressourcen.
+    Das Maschinenwesen steht da wie ein unüberwindbares Bollwerk. Seine Systeme sind in optimaler Verfassung, und es kämpft mit einer beängstigenden Effizienz.
