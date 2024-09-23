@@ -28,6 +28,7 @@ class MonsterWindow(customtkinter.CTk):
 
         self.num_monsters_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="How many?", )
         self.num_monsters_entry.grid(row=3, column=0, sticky="nsew", padx=30, pady=10)
+        self.num_monsters_entry.bind("<Return>", self.on_enter_with_filled_form)
 
         self.average_health_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Average Health", )
         self.average_health_entry.grid(row=4, column=0, sticky="nsew", padx=30, pady=10)
@@ -39,6 +40,20 @@ class MonsterWindow(customtkinter.CTk):
         self.speed_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Speed")
         self.speed_entry.grid(row=6, column=0, sticky="nsew", padx=30, pady=10)
 
+        self.resistances_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Resistances")
+        self.resistances_entry.grid(row=7, column=0, sticky="nsew", padx=30, pady=10)
+
+        self.damage_immunities_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Damage Immunities")
+        self.damage_immunities_entry.grid(row=8, column=0, sticky="nsew", padx=30, pady=10)
+
+        self.damage_vulnerabilities_entry = customtkinter.CTkEntry(self.monster_frame,
+                                                                   placeholder_text="Damage Vulnerabilities")
+        self.damage_vulnerabilities_entry.grid(row=9, column=0, sticky="nsew", padx=30, pady=10)
+
+        self.condition_immunities_entry = customtkinter.CTkEntry(self.monster_frame,
+                                                                 placeholder_text="Condition Immunities")
+        self.condition_immunities_entry.grid(row=10, column=0, sticky="nsew", padx=30, pady=10)
+
         self.monstertyp_auswahl_frame = customtkinter.CTkFrame(self)
         self.monstertyp_auswahl_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=10)
         self.type_var = tk.StringVar()
@@ -48,28 +63,28 @@ class MonsterWindow(customtkinter.CTk):
         self.monstertyp_auswahl_frame_label.grid(row=0, column=0, sticky="nsew", padx=30, pady=10)
 
         self.humanoid_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Humanoid",
-                                                            variable=self.type_var, value="Humanoid")
+                                                            variable=self.type_var, value="humanoid")
         self.humanoid_button.grid(row=1, column=0, sticky="nsew", padx=30, pady=10)
         self.tier_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Tier",
-                                                        variable=self.type_var, value="Tier")
+                                                        variable=self.type_var, value="beast")
         self.tier_button.grid(row=2, column=0, sticky="nsew", padx=30, pady=10)
         self.untot_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Untot",
-                                                         variable=self.type_var, value="Untot")
+                                                         variable=self.type_var, value="undead")
         self.untot_button.grid(row=3, column=0, sticky="nsew", padx=30, pady=10)
         self.maschine_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Maschine",
-                                                            variable=self.type_var, value="Maschine")
+                                                            variable=self.type_var, value="construct")
         self.maschine_button.grid(row=4, column=0, sticky="nsew", padx=30, pady=10)
         self.schleim_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Schleim",
-                                                           variable=self.type_var, value="Schleim")
+                                                           variable=self.type_var, value="ooze")
         self.schleim_button.grid(row=5, column=0, sticky="nsew", padx=30, pady=10)
         self.celestial_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Celestial",
-                                                             variable=self.type_var, value="Celestial")
+                                                             variable=self.type_var, value="celestial")
         self.celestial_button.grid(row=6, column=0, sticky="nsew", padx=30, pady=10)
         self.drache_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Drache",
-                                                          variable=self.type_var, value="Drache")
+                                                          variable=self.type_var, value="dragon")
         self.drache_button.grid(row=7, column=0, sticky="nsew", padx=30, pady=10)
         self.element_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Elementar",
-                                                           variable=self.type_var, value="Elementar")
+                                                           variable=self.type_var, value="elemental")
         self.element_button.grid(row=8, column=0, sticky="nsew", padx=30, pady=10)
 
         # create Submit button frame
@@ -102,41 +117,68 @@ class MonsterWindow(customtkinter.CTk):
     def import_monster(self):
         monster_name = self.monster_name_entry.get()
         monster_statblock = asyncio.run(get_statblock(monster_name))
+        print(monster_statblock)
+        possible_types = ["humanoid", "beast", "undead", "construct", "ooze", "celestial", "dragon", "elemental"]
 
         if monster_statblock:
-            dex_score_string = monster_statblock.get('ability_scores', {}).get('DEX',
-                                                                               '0 (0)')  # Default value if DEX is missing
+            dex_score_string = monster_statblock.get('ability_scores', {}).get('DEX', '0 (0)')
             dex_modifier = dex_score_string.split('(')[-1].strip(')')
 
             self.initiative_modifier_entry.delete(0, tk.END)
             self.initiative_modifier_entry.insert(0, dex_modifier)
 
-            hit_points = monster_statblock.get('important_info', {}).get('Hit Points',
-                                                                         '0 (0)')  # Default value if Hit Points is missing
+            hit_points = monster_statblock.get('important_info', {}).get('Hit Points', '0 (0)')
             average_health = hit_points.split('(')[-1].strip(')')
 
             self.average_health_entry.delete(0, tk.END)
             self.average_health_entry.insert(0, average_health)
 
-            # Set armor class and speed
-            armor_class = monster_statblock.get('important_info', {}).get('Armor Class',
-                                                                          '0')  # Default value if Armor Class is missing
-            speed = monster_statblock.get('important_info', {}).get('Speed', '0')  # Default value if Speed is missing
-
+            armor_class = monster_statblock.get('important_info', {}).get('Armor Class', '0')
+            speed = monster_statblock.get('important_info', {}).get('Speed', '0')
             self.armor_class_entry.delete(0, tk.END)
             self.armor_class_entry.insert(0, armor_class)
-
             self.speed_entry.delete(0, tk.END)
             self.speed_entry.insert(0, speed)
 
-            damage_immunities = monster_statblock.get("important_info", {}).get("Damage Immunities", [])
-            damage_resistances = monster_statblock.get("important_info", {}).get("Damage Resistances", [])
-            condition_immunities = monster_statblock.get("important_info", {}).get("Condition Immunities", [])
-            damage_vulnerabilities = monster_statblock.get("important_info", {}).get("Damage Vulnerabilities", [])
+            # Set new fields with default values for None
+            self.resistances_entry.delete(0, tk.END)
+            self.resistances_entry.insert(0,
+                                          monster_statblock.get("important_info", {}).get("Damage Resistances", 'None'))
+
+            self.damage_immunities_entry.delete(0, tk.END)
+            self.damage_immunities_entry.insert(0, monster_statblock.get("important_info", {}).get("Damage Immunities",
+                                                                                                   'None'))
+
+            self.damage_vulnerabilities_entry.delete(0, tk.END)
+            self.damage_vulnerabilities_entry.insert(0, monster_statblock.get("important_info", {}).get(
+                "Damage Vulnerabilities", 'None'))
+
+            self.condition_immunities_entry.delete(0, tk.END)
+            self.condition_immunities_entry.insert(0, monster_statblock.get("important_info", {}).get(
+                "Condition Immunities", 'None'))
+            split_monster_type = monster_statblock.get("creature_type").replace(",", " ").split()
+            print(split_monster_type)
+            found_types = [word for word in split_monster_type if word in possible_types]
+            print(found_types)
+            if found_types:
+                self.type_var.set(found_types[0])
+            self.after(100, self.num_monsters_entry.focus_force)
+
+
+
 
     def on_enter(self, event):
         if self.monster_name_entry.get():
             self.import_monster()
+
+    def on_enter_with_filled_form(self, event):
+        # Check if all necessary fields are filled
+        if (self.monster_name_entry.get() and
+                self.initiative_modifier_entry.get() and
+                self.num_monsters_entry.get() and
+                self.average_health_entry.get() and
+                self.type_var.get()):
+            self.submit()
 
     def submit(self):
         monster_name = self.monster_name_entry.get()
@@ -144,6 +186,12 @@ class MonsterWindow(customtkinter.CTk):
         num_monsters = int(self.num_monsters_entry.get())
         average_health = self.average_health_entry.get()
         monster_type = self.type_var.get()
-
-        self.callback(monster_name, initiative_modifier, num_monsters, average_health, monster_type)
+        armor_class = self.armor_class_entry.get() or None
+        speed = self.speed_entry.get() or None
+        resistances = self.resistances_entry.get() or None
+        damage_immunities = self.damage_immunities_entry.get() or None
+        damage_vulnerabilities = self.damage_vulnerabilities_entry.get() or None
+        condition_immunities = self.condition_immunities_entry.get() or None
+        self.callback(monster_name, initiative_modifier, num_monsters, average_health, monster_type,
+                      armor_class, speed, resistances, damage_immunities, damage_vulnerabilities, condition_immunities)
         self.destroy()

@@ -84,7 +84,7 @@ class InitiativeTracker(customtkinter.CTk):
         participant = self.participant_name_entry.get()
         initiative = int(self.participant_initiative_entry.get())
         health = int(self.participant_health_entry.get())
-        type = "Humanoid"
+        type = "humanoid"
 
         # Update or add participant in the initial_values dictionary
         self.initial_values[participant] = (initiative, health, type)
@@ -125,10 +125,12 @@ class InitiativeTracker(customtkinter.CTk):
             health_entry_widget.grid(column=3, row=row_count, padx=5, pady=5)
 
             # Status label reference
-            status_label = customtkinter.CTkButton(master=self.main_frame, text="HP Indicator",
-                                                   command=lambda: open_status_window(participant, self.current_health,
-                                                                                      self.initial_values,
-                                                                                      self.status_lists))
+            status_label = customtkinter.CTkButton(
+                master=self.main_frame,
+                text="HP Indicator",
+                command=lambda p=participant: open_status_window(p, self.current_health, self.initial_values,
+                                                                 self.status_lists)
+            )
             status_label.grid(column=4, row=row_count, sticky="w", padx=5, pady=5)
 
             # Set initial color
@@ -166,12 +168,31 @@ class InitiativeTracker(customtkinter.CTk):
         monster_window = MonsterWindow(self, self.add_monster)
         monster_window.mainloop()
 
-    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class= None, initiative = None):
+    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class= None,
+                    speed = None, resistances = None,
+                    damage_immunities = None, damage_vulnerabilities = None,
+                    condition_immunities =None):
         for i in range(1, num_monsters + 1):
             monster = f"{monster_name}{i}"
             health = calculate_health(average_health)
             initiative = random.randint(1, 20) + initiative_modifier
-            self.initial_values[monster] = (initiative, health, monster_type)
+            monster_attributes = [initiative, health, monster_type]
+
+          #if armor_class is not None:
+           #     monster_attributes.append(armor_class)
+            #if resistances is not None:
+             #   monster_attributes.append(resistances)
+            #if speed is not None:
+             #   monster_attributes.append(speed)
+            #if damage_immunities is not None:
+             #   monster_attributes.append(damage_immunities)
+            #if damage_vulnerabilities is not None:
+             #   monster_attributes.append(damage_vulnerabilities)
+            #if condition_immunities is not None:
+             #   monster_attributes.append(condition_immunities)
+
+            self.initial_values[monster] = tuple(monster_attributes)
+            print(self.initial_values[monster])
             self.current_health[monster] = health
 
         if self.status_lists.get(monster_type.lower()) is None:
