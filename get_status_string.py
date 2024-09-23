@@ -1,5 +1,5 @@
 import random
-def get_random_status_string(health_percentage, type, status_dict):
+def get_random_status_string(health_percentage, type = None, status_dict = None):
     type = type.lower()
     status_dict = status_dict[type]
     if health_percentage >= 80:

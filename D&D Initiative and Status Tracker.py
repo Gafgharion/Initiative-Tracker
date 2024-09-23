@@ -173,7 +173,7 @@ class InitiativeTracker(customtkinter.CTk):
         monster_window = MonsterWindow(self, self.add_monster)
         monster_window.mainloop()
 
-    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type):
+    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class= None, initiative = None):
         for i in range(1, num_monsters + 1):
             monster = f"{monster_name}{i}"
             health = calculate_health(average_health)

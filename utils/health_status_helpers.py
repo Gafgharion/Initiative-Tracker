@@ -40,3 +40,7 @@ def get_status_string_and_color(current_health, maximum_health, status_lists, mo
     else:
         health_status, color = get_random_status_string(health_percentage, monster_type, status_lists)
     return health_status, color
+
+def get_health_status_color_indicator(current_health, maximum_health):
+    health_percentage = (int(current_health) / int(maximum_health)) * 100
+    color = get_random_status_string(health_percentage)

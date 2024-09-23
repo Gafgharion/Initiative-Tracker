@@ -14,6 +14,8 @@ class MonsterWindow(customtkinter.CTk):
         self.monster_name_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Monster Name" )
         self.monster_name_entry.grid(row=1, column=0, sticky="nsew", padx=30, pady=10)
         self.monster_name_entry.bind("<KeyRelease>", self.show_import_button)
+        self.monster_name_entry.bind("<Return>", self.on_enter)
+        self.after(100, self.monster_name_entry.focus_force)
 
         # Import button (initially hidden)
         self.import_button = customtkinter.CTkButton(self.monster_frame, text="Import Monster",
@@ -100,7 +102,6 @@ class MonsterWindow(customtkinter.CTk):
     def import_monster(self):
         monster_name = self.monster_name_entry.get()
         monster_statblock = asyncio.run(get_statblock(monster_name))
-        print(monster_statblock)
         if monster_statblock:
             dex_score_string = monster_statblock['ability_scores']['DEX']
             dex_modifier = dex_score_string.split('(')[-1].strip(')')
@@ -124,12 +125,20 @@ class MonsterWindow(customtkinter.CTk):
             self.speed_entry.delete(0, tk.END)
             self.speed_entry.insert(0, speed)
 
-            # Update creature name and type if needed...
-            # (omitted for brevity)
+            damage_immunities = [resistance for resistance in monster_statblock["important_info"]["Damage Immunities"]]
+            damage_resistances = [resistance for resistance in monster_statblock["important_info"]["Damage Resistances"]]
+            condition_immunities = [resistance for resistance in monster_statblock["important_info"]["Condition Immunities"]]
+            damage_vulnerabilities = [resistance for resistance in
+                                    monster_statblock["important_info"]["Damage Vulnerabilities"]]
+
 
             print(f"Importing monster: {monster_name}, this is the statblock: {monster_statblock}")
         else:
             print(f"Failed to import monster: {monster_name}")
+
+    def on_enter(self, event):
+        if self.monster_name_entry.get():
+            self.import_monster()
 
     def submit(self):
         monster_name = self.monster_name_entry.get()
