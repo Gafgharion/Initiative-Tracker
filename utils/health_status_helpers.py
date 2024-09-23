@@ -43,4 +43,14 @@ def get_status_string_and_color(current_health, maximum_health, status_lists, mo
 
 def get_health_status_color_indicator(current_health, maximum_health):
     health_percentage = (int(current_health) / int(maximum_health)) * 100
-    color = get_random_status_string(health_percentage)
+    if health_percentage >= 80:
+        color = "chartreuse4"
+    elif health_percentage >= 60 and health_percentage < 80:
+        color = "chartreuse1"
+    elif health_percentage >= 40 and health_percentage < 60:
+        color = "orange"
+    elif health_percentage >= 20 and health_percentage < 40:
+        color = "firebrick1"
+    elif health_percentage >= 0 and health_percentage < 20:
+        color = "firebrick4"
+    return color

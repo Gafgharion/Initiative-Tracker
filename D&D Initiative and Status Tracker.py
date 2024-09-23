@@ -5,8 +5,9 @@ import customtkinter
 from add_monster_window import MonsterWindow
 from utils.file_import import read_data_file
 from get_status_string import get_random_status_string
-from utils.health_status_helpers import delayed_check_health_status, get_status_string_and_color
+from utils.health_status_helpers import delayed_check_health_status, get_status_string_and_color, get_health_status_color_indicator
 from utils.calculate_health import calculate_health
+from status_window import open_status_window
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -70,7 +71,6 @@ class InitiativeTracker(customtkinter.CTk):
         # set default values for Scaling and Appearance
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
-        self.delayed_health_callback_id = None
 
         # Initializing the required dictionaries
         self.initial_values = {}  # dictionary with the following strucutre: {"name": (initiative, maximum_health, monster_type)}
@@ -123,22 +123,16 @@ class InitiativeTracker(customtkinter.CTk):
             else:
                 health_entry_widget.insert(0, str(health))
             health_entry_widget.grid(column=3, row=row_count, padx=5, pady=5)
-            self.delayed_health_callback_id = None
 
             # Set up health status
-            status_string, status_color = get_status_string_and_color(
+            status_color = get_health_status_color_indicator(
                 self.current_health[participant],
-                self.initial_values[participant][1],
-                self.status_lists,
-                self.initial_values[participant][2]
+                self.initial_values[participant][1]
             )
 
             # Status label reference
-            status_label = customtkinter.CTkLabel(master=self.main_frame, text=status_string, fg_color=status_color)
+            status_label = customtkinter.CTkButton(master=self.main_frame, text="HP Indicator", fg_color=status_color, command=lambda: open_status_window(participant, self.current_health, self.initial_values, self.status_lists))
             status_label.grid(column=4, row=row_count, sticky="w", padx=5, pady=5)
-
-            # Store reference to status label for later update
-            self.status_labels[participant] = status_label
 
             # Attach callback for health_entry change, pass the app instance
             health_entry.trace_add(

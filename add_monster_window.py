@@ -102,22 +102,26 @@ class MonsterWindow(customtkinter.CTk):
     def import_monster(self):
         monster_name = self.monster_name_entry.get()
         monster_statblock = asyncio.run(get_statblock(monster_name))
+
         if monster_statblock:
-            dex_score_string = monster_statblock['ability_scores']['DEX']
+            dex_score_string = monster_statblock.get('ability_scores', {}).get('DEX',
+                                                                               '0 (0)')  # Default value if DEX is missing
             dex_modifier = dex_score_string.split('(')[-1].strip(')')
 
             self.initiative_modifier_entry.delete(0, tk.END)
             self.initiative_modifier_entry.insert(0, dex_modifier)
 
-            hit_points = monster_statblock['important_info']['Hit Points']
+            hit_points = monster_statblock.get('important_info', {}).get('Hit Points',
+                                                                         '0 (0)')  # Default value if Hit Points is missing
             average_health = hit_points.split('(')[-1].strip(')')
 
             self.average_health_entry.delete(0, tk.END)
             self.average_health_entry.insert(0, average_health)
 
             # Set armor class and speed
-            armor_class = monster_statblock['important_info']['Armor Class']
-            speed = monster_statblock['important_info']['Speed']
+            armor_class = monster_statblock.get('important_info', {}).get('Armor Class',
+                                                                          '0')  # Default value if Armor Class is missing
+            speed = monster_statblock.get('important_info', {}).get('Speed', '0')  # Default value if Speed is missing
 
             self.armor_class_entry.delete(0, tk.END)
             self.armor_class_entry.insert(0, armor_class)
@@ -125,16 +129,10 @@ class MonsterWindow(customtkinter.CTk):
             self.speed_entry.delete(0, tk.END)
             self.speed_entry.insert(0, speed)
 
-            damage_immunities = [resistance for resistance in monster_statblock["important_info"]["Damage Immunities"]]
-            damage_resistances = [resistance for resistance in monster_statblock["important_info"]["Damage Resistances"]]
-            condition_immunities = [resistance for resistance in monster_statblock["important_info"]["Condition Immunities"]]
-            damage_vulnerabilities = [resistance for resistance in
-                                    monster_statblock["important_info"]["Damage Vulnerabilities"]]
-
-
-            print(f"Importing monster: {monster_name}, this is the statblock: {monster_statblock}")
-        else:
-            print(f"Failed to import monster: {monster_name}")
+            damage_immunities = monster_statblock.get("important_info", {}).get("Damage Immunities", [])
+            damage_resistances = monster_statblock.get("important_info", {}).get("Damage Resistances", [])
+            condition_immunities = monster_statblock.get("important_info", {}).get("Condition Immunities", [])
+            damage_vulnerabilities = monster_statblock.get("important_info", {}).get("Damage Vulnerabilities", [])
 
     def on_enter(self, event):
         if self.monster_name_entry.get():
