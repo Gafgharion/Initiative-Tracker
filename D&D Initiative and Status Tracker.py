@@ -6,6 +6,7 @@ from add_monster_window import MonsterWindow
 from utils.file_import import read_data_file
 from get_status_string import get_random_status_string
 from utils.health_status_helpers import delayed_check_health_status, get_status_string_and_color
+from utils.calculate_health import calculate_health
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -173,15 +174,9 @@ class InitiativeTracker(customtkinter.CTk):
         monster_window.mainloop()
 
     def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type):
-        number = 0
-        while number == 0:
-            number = random.randint(-1, 1)
         for i in range(1, num_monsters + 1):
             monster = f"{monster_name}{i}"
-            if number < 0:
-                health = int(average_health) - int(((average_health / 100) * random.randint(1, 40)))
-            elif number > 0:
-                health = int(average_health) + int(((average_health / 100) * random.randint(1, 40)))
+            health = calculate_health(average_health)
             initiative = random.randint(1, 20) + initiative_modifier
             self.initial_values[monster] = (initiative, health, monster_type)
             self.current_health[monster] = health
