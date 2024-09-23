@@ -87,6 +87,7 @@ class InitiativeTracker(customtkinter.CTk):
 
         # Update or add participant in the initial_values dictionary
         self.initial_values[participant] = (initiative, health, type)
+        self.current_health[participant] = health
 
         # Sort the dictionary by initiative and convert back to a sorted list
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1][0], reverse=True)
