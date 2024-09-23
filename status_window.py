@@ -16,7 +16,7 @@ def open_status_window(participant, current_health, initial_values, status_strin
     health_status, color = get_random_status_string(health_percentage, type=initial_values[participant][2], status_dict=status_strings_list)
 
     # Create label to display health status
-    status_label = ctk.CTkLabel(status_window, text=health_status, fg_color=color)
+    status_label = ctk.CTkLabel(status_window, text=health_status, fg_color=color, font=("Arial", 25))
     status_label.pack(padx=20, pady=20)
 
     # Add a close button
