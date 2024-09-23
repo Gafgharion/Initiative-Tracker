@@ -124,29 +124,28 @@ class InitiativeTracker(customtkinter.CTk):
                 health_entry_widget.insert(0, str(health))
             health_entry_widget.grid(column=3, row=row_count, padx=5, pady=5)
 
-            # Set up health status
-            status_color = get_health_status_color_indicator(
-                self.current_health[participant],
-                self.initial_values[participant][1]
-            )
-
             # Status label reference
-            status_label = customtkinter.CTkButton(master=self.main_frame, text="HP Indicator", fg_color=status_color, command=lambda: open_status_window(participant, self.current_health, self.initial_values, self.status_lists))
+            status_label = customtkinter.CTkButton(master=self.main_frame, text="HP Indicator",
+                                                   command=lambda: open_status_window(participant, self.current_health,
+                                                                                      self.initial_values,
+                                                                                      self.status_lists))
             status_label.grid(column=4, row=row_count, sticky="w", padx=5, pady=5)
 
-            # Attach callback for health_entry change, pass the app instance
+            # Set initial color
+            status_color = get_health_status_color_indicator(
+                self.current_health.get(participant, health),
+                health
+            )
+            status_label.configure(fg_color=status_color)
+
+            # Attach callback for health_entry change
             health_entry.trace_add(
                 mode="write",
-                callback=lambda mode, name, index, p=participant, he=health_entry, row=row_count: (
-                    delayed_check_health_status(self, p, he, row, self.current_health, self.initial_values,
-                                                self.status_lists)
-                )
+                callback=lambda mode, name, index, p=participant, he=health_entry, sl=status_label: (
+                    delayed_check_health_status(self, p, he, self.current_health, sl, self.initial_values))
             )
 
-            # Create Delete Button
-            customtkinter.CTkButton(self.main_frame, text="Delete this row", width=60,
-                                    command=lambda p=participant: self.delete_entry(p)).grid(column=5, row=row_count,
-                                                                                             padx=5, pady=5)
+
 
     def delete_entry(self, participant):
         if participant in self.initial_values:
