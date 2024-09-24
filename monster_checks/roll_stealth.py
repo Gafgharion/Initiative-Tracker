@@ -4,11 +4,11 @@ import random
 def roll_stealth(participant, initial_values, refresh_callback):
     # Determine the stealth modifier
     attributes = initial_values.get(participant)
-    if attributes.get("skills", {}):
-        if attributes.get("skills", {}).get("Stealth"):
-            stealth_modifier = attributes.get("skills", {}).get("Stealth")
+    if not attributes.get("skills").get("Stealth"):
+        stealth_modifier = attributes.get("dex_modifier", 0)
     else:
-        stealth_modifier = attributes.get("dex_modifier", 0)  # Default to 0 if no dex_modifier
+        stealth_modifier = attributes.get("skills", {}).get("Stealth")
+
 
     # Roll a d20 and calculate the stealth value
     stealth_value = random.randint(1, 20) + int(stealth_modifier)
