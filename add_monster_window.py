@@ -65,28 +65,59 @@ class MonsterWindow(customtkinter.CTk):
         self.humanoid_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Humanoid",
                                                             variable=self.type_var, value="humanoid")
         self.humanoid_button.grid(row=1, column=0, sticky="nsew", padx=30, pady=10)
+
         self.tier_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Tier",
                                                         variable=self.type_var, value="beast")
         self.tier_button.grid(row=2, column=0, sticky="nsew", padx=30, pady=10)
+
         self.untot_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Untot",
                                                          variable=self.type_var, value="undead")
         self.untot_button.grid(row=3, column=0, sticky="nsew", padx=30, pady=10)
+
         self.maschine_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Maschine",
                                                             variable=self.type_var, value="construct")
         self.maschine_button.grid(row=4, column=0, sticky="nsew", padx=30, pady=10)
+
         self.schleim_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Schleim",
                                                            variable=self.type_var, value="ooze")
         self.schleim_button.grid(row=5, column=0, sticky="nsew", padx=30, pady=10)
+
         self.celestial_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Celestial",
                                                              variable=self.type_var, value="celestial")
         self.celestial_button.grid(row=6, column=0, sticky="nsew", padx=30, pady=10)
+
         self.drache_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Drache",
                                                           variable=self.type_var, value="dragon")
         self.drache_button.grid(row=7, column=0, sticky="nsew", padx=30, pady=10)
+
         self.element_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Elementar",
                                                            variable=self.type_var, value="elemental")
         self.element_button.grid(row=8, column=0, sticky="nsew", padx=30, pady=10)
 
+        self.aberration_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Aberration",
+                                                           variable=self.type_var, value="aberration")
+        self.aberration_button.grid(row=9, column=0, sticky="nsew", padx=30, pady=10)
+
+        self.fey_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Fee",
+                                                              variable=self.type_var, value="fey")
+        self.fey_button.grid(row=10, column=0, sticky="nsew", padx=30, pady=10)
+
+        self.fiend_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Fiend",
+                                                       variable=self.type_var, value="fiend")
+        self.fiend_button.grid(row=1, column=1, sticky="nsew", padx=30, pady=10)
+
+        self.giant_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Riese",
+                                                         variable=self.type_var, value="giant")
+        self.giant_button.grid(row=2, column=1, sticky="nsew", padx=30, pady=10)
+
+        self.monstrosity_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame, text="Monstrosität",
+                                                         variable=self.type_var, value="monstrosity")
+        self.monstrosity_button.grid(row=3, column=1, sticky="nsew", padx=30, pady=10)
+
+        self.plant_button = customtkinter.CTkRadioButton(master=self.monstertyp_auswahl_frame,
+                                                               text="Pflanze",
+                                                               variable=self.type_var, value="plant")
+        self.plant_button.grid(row=4, column=1, sticky="nsew", padx=30, pady=10)
         # create Submit button frame
         self.submit_button_frame = customtkinter.CTkFrame(self)
         self.submit_button_frame.grid(row=1, column=0, sticky="nsew", padx=30, pady=10, columnspan=3)
@@ -118,7 +149,7 @@ class MonsterWindow(customtkinter.CTk):
         monster_name = self.monster_name_entry.get()
         monster_statblock = asyncio.run(get_statblock(monster_name))
         print(monster_statblock)
-        possible_types = ["humanoid", "beast", "undead", "construct", "ooze", "celestial", "dragon", "elemental"]
+        possible_types = ["aberration", "humanoid", "beast", "undead", "construct", "ooze", "celestial", "dragon", "elemental", "fey", "fiend", "giant", "monstrosity", "plant"]
 
         if monster_statblock:
             dex_score_string = monster_statblock.get('ability_scores', {}).get('DEX', '0 (0)')

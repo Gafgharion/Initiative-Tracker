@@ -47,16 +47,16 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_forget()
 
         # defining the input variables for the players
-        self.player_options = ["Nareina", "Arantarr", "Ars", "Qyiana"]
+        self.characters = {"Nareina": "0", "Arantarr": "13", "Ars": "0", "Qyiana": "0"}
 
         self.combobox = ttk.Combobox(
             self.sidebar_frame,
-            values=self.player_options,
+            values=list(self.characters.keys()),
             state="normal"  # Allows both typing and selecting
         )
         self.combobox.grid(row=3, column=0, padx=20, pady=10)
         self.combobox.bind("<<ComboboxSelected>>", self.on_player_selected)
-        self.combobox.set(self.player_options[0])
+        self.combobox.set(next(iter(self.characters)))
 
         self.participant_initiative_entry = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="Player Initiative")
         self.participant_initiative_entry.grid(row=4, column=0, padx=20, pady=10)
@@ -98,6 +98,7 @@ class InitiativeTracker(customtkinter.CTk):
         participant = self.combobox.get()
         initiative = int(self.participant_initiative_entry.get())
         health = int(self.participant_health_entry.get())
+        passive_perception = self.characters.get(participant)
         type = "humanoid"
 
         # Update or add participant in the initial_values dictionary
@@ -105,8 +106,9 @@ class InitiativeTracker(customtkinter.CTk):
             "initiative": initiative,
             "health": health,
             "type": type,
-            "passive_perception": "0"
+            "passive_perception": passive_perception
         }
+        print(self.initial_values)
         self.current_health[participant] = health
 
         # Sort the dictionary by initiative and convert back to a sorted list
@@ -190,8 +192,6 @@ class InitiativeTracker(customtkinter.CTk):
                 customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-", fg_color = get_condition_color(value)).grid(column=col_offset,
                                                                                                   row=row_count, padx=5,
                                                                                                   pady=5)
-
-
 
     def delete_entry(self, participant):
         if participant in self.initial_values:
