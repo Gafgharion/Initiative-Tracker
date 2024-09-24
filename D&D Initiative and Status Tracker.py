@@ -135,8 +135,6 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=20, rowspan=5)
         self.main_frame.grid_rowconfigure(5, weight=1)
 
-        print(self.detected_characters)
-        print(self.spotting_characters)
         # Define initial headers
         headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth"]
 
@@ -276,7 +274,6 @@ class InitiativeTracker(customtkinter.CTk):
             }
 
             self.initial_values[monster] = monster_attributes
-            print(self.initial_values[monster])
             self.current_health[monster] = health
 
         if self.status_lists.get(monster_type.lower()) is None:
