@@ -90,6 +90,7 @@ class InitiativeTracker(customtkinter.CTk):
         self.player_passive_perceptions = {}
 
         self.status_labels = {}  # Store references to status labels
+        self.header_mappings = {}
 
     def on_player_selected(self, event):
         selected_value = self.combobox.get()
@@ -109,7 +110,6 @@ class InitiativeTracker(customtkinter.CTk):
             "type": type,
             "passive_perception": passive_perception
         }
-        print(self.initial_values)
         self.current_health[participant] = health
 
         # Sort the dictionary by initiative and convert back to a sorted list
@@ -123,37 +123,44 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=20, rowspan=5)
         self.main_frame.grid_rowconfigure(5, weight=1)
 
+        # Define initial headers
         headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth"]
 
-        all_additional_keys = set()
+        # Collect all additional keys and update header_mappings
         for _, attributes in sorted_initial_values:
-            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type", "skills", "dex_modifier"]]
-            all_additional_keys.update(additional_keys)
+            for key in attributes.keys():
+                if key not in self.header_mappings and key not in ["initiative", "health", "type", "skills",
+                                                                   "dex_modifier"]:
+                    self.header_mappings[key] = key  # You can map to a more friendly display name if needed
 
-        headers.extend(sorted(all_additional_keys))  # Add sorted additional keys to headers
+        # Create headers
+        dynamic_headers = headers + sorted(self.header_mappings.keys())
 
         # Display headers
-        for col, header in enumerate(headers):
+        for col, header in enumerate(dynamic_headers):
             customtkinter.CTkLabel(master=self.main_frame, text=header).grid(column=col, row=0, sticky="w", padx=5,
                                                                              pady=5)
+
         row_count = 1
         for participant, attributes in sorted_initial_values:
             row_count += 1
-            initiative = attributes["initiative"]
-            health = attributes["health"]
 
             # Display Participant name
             customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=0, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
 
             # Display Initiative value
-            customtkinter.CTkLabel(master=self.main_frame, text=initiative).grid(column=1, row=row_count, padx=5,
-                                                                                 pady=5)
+            customtkinter.CTkLabel(master=self.main_frame, text=attributes["initiative"]).grid(column=1, row=row_count,
+                                                                                               padx=5, pady=5)
+
+            # Display Health value
+            customtkinter.CTkLabel(master=self.main_frame, text=attributes["health"]).grid(column=2, row=row_count,
+                                                                                           padx=5, pady=5)
 
             # Health entry widget
             health_entry = tk.StringVar()
             health_entry_widget = customtkinter.CTkEntry(master=self.main_frame, textvariable=health_entry, width=50)
-            health_entry_widget.insert(0, str(self.current_health.get(participant, health)))
+            health_entry_widget.insert(0, str(self.current_health.get(participant, attributes["health"])))
             health_entry_widget.grid(column=2, row=row_count, padx=5, pady=5)
 
             # Health Status button
@@ -166,7 +173,8 @@ class InitiativeTracker(customtkinter.CTk):
             status_label.grid(column=3, row=row_count, sticky="w", padx=5, pady=5)
 
             # Set initial status color
-            status_color = get_health_status_color_indicator(self.current_health.get(participant, health), health)
+            status_color = get_health_status_color_indicator(self.current_health.get(participant, attributes["health"]),
+                                                             attributes["health"])
             status_label.configure(fg_color=status_color)
 
             # Attach callback for health_entry change
@@ -183,16 +191,16 @@ class InitiativeTracker(customtkinter.CTk):
 
             # Roll Stealth Button
             customtkinter.CTkButton(self.main_frame, text="Roll Stealth", width=60,
-                                    command=lambda p=participant:  roll_stealth(p, self.initial_values, refresh_callback= self.refresh_display)).grid(column=5, row=row_count,
-                                                                                             padx=5, pady=5)
+                                    command=lambda p=participant: roll_stealth(p, self.initial_values,
+                                                                               refresh_callback=self.refresh_display)).grid(
+                column=5, row=row_count, padx=5, pady=5)
 
             # Dynamically add additional attributes as columns if they exist
-            additional_keys = sorted([key for key in attributes.keys() if key not in ["initiative", "health", "type", "skills", "dex_modifier"]])
-            for col_offset, key in enumerate(additional_keys, start=6):  # Start after basic columns
-                value = attributes[key]
-                customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-", fg_color = get_condition_color(value)).grid(column=col_offset,
-                                                                                                  row=row_count, padx=5,
-                                                                                                  pady=5)
+            for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=6):  # Start after basic columns
+                value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
+                customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
+                                       fg_color=get_condition_color(value)).grid(column=col_offset, row=row_count,
+                                                                                 padx=5, pady=5)
 
     def delete_entry(self, participant):
         if participant in self.initial_values:
