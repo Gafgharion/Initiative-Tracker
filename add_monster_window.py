@@ -6,6 +6,7 @@ import asyncio
 class MonsterWindow(customtkinter.CTk):
     def __init__(self, parent, callback):
         super().__init__()
+        self.skills = {}
         self.title("Add Monster")
 
         self.monster_frame = customtkinter.CTkFrame(self, width=400, height=200, corner_radius=0)
@@ -188,11 +189,21 @@ class MonsterWindow(customtkinter.CTk):
             self.condition_immunities_entry.insert(0, monster_statblock.get("important_info", {}).get(
                 "Condition Immunities", 'None'))
             split_monster_type = monster_statblock.get("creature_type").replace(",", " ").split()
-            print(split_monster_type)
             found_types = [word for word in split_monster_type if word in possible_types]
-            print(found_types)
             if found_types:
                 self.type_var.set(found_types[0])
+            skills_string = monster_statblock.get("important_info", {}).get("Skills", 'None')
+            if skills_string != 'None':
+                # Split the string by commas to separate each skill
+                skills_list = skills_string.split(', ')
+
+                # Iterate over the list to populate the dictionary
+                for skill in skills_list:
+                    # Split each skill into its name and value
+                    name, value = skill.split(' ')
+                    # Add to the dictionary
+                    self.skills[name] = value
+            print(self.skills)
             self.after(100, self.num_monsters_entry.focus_force)
 
 
@@ -223,6 +234,7 @@ class MonsterWindow(customtkinter.CTk):
         damage_immunities = self.damage_immunities_entry.get() or None
         damage_vulnerabilities = self.damage_vulnerabilities_entry.get() or None
         condition_immunities = self.condition_immunities_entry.get() or None
+        monster_skills = self.skills or None
         self.callback(monster_name, initiative_modifier, num_monsters, average_health, monster_type,
-                      armor_class, speed, resistances, damage_immunities, damage_vulnerabilities, condition_immunities)
+                      armor_class, speed, resistances, damage_immunities, damage_vulnerabilities, condition_immunities, monster_skills)
         self.destroy()

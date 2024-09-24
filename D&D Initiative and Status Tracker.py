@@ -10,6 +10,7 @@ from utils.health_status_helpers import delayed_check_health_status, get_status_
 from utils.calculate_health import calculate_health
 from utils.get_colors import get_condition_color
 from status_window import open_status_window
+from monster_checks.roll_stealth import roll_stealth
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -122,11 +123,11 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=20, rowspan=5)
         self.main_frame.grid_rowconfigure(5, weight=1)
 
-        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button"]
+        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth"]
 
         all_additional_keys = set()
         for _, attributes in sorted_initial_values:
-            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type"]]
+            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type", "skills", "dex_modifier"]]
             all_additional_keys.update(additional_keys)
 
         headers.extend(sorted(all_additional_keys))  # Add sorted additional keys to headers
@@ -135,11 +136,6 @@ class InitiativeTracker(customtkinter.CTk):
         for col, header in enumerate(headers):
             customtkinter.CTkLabel(master=self.main_frame, text=header).grid(column=col, row=0, sticky="w", padx=5,
                                                                              pady=5)
-
-        for col, header in enumerate(headers):
-            customtkinter.CTkLabel(master=self.main_frame, text=header).grid(column=col, row=0, sticky="w", padx=5,
-                                                                             pady=5)
-
         row_count = 1
         for participant, attributes in sorted_initial_values:
             row_count += 1
@@ -185,9 +181,14 @@ class InitiativeTracker(customtkinter.CTk):
                                     command=lambda p=participant: self.delete_entry(p)).grid(column=4, row=row_count,
                                                                                              padx=5, pady=5)
 
+            # Roll Stealth Button
+            customtkinter.CTkButton(self.main_frame, text="Roll Stealth", width=60,
+                                    command=lambda p=participant:  roll_stealth(p, self.initial_values, refresh_callback= self.refresh_display)).grid(column=5, row=row_count,
+                                                                                             padx=5, pady=5)
+
             # Dynamically add additional attributes as columns if they exist
-            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type"]]
-            for col_offset, key in enumerate(additional_keys, start=5):  # Start after basic columns
+            additional_keys = sorted([key for key in attributes.keys() if key not in ["initiative", "health", "type", "skills", "dex_modifier"]])
+            for col_offset, key in enumerate(additional_keys, start=6):  # Start after basic columns
                 value = attributes[key]
                 customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-", fg_color = get_condition_color(value)).grid(column=col_offset,
                                                                                                   row=row_count, padx=5,
@@ -215,7 +216,7 @@ class InitiativeTracker(customtkinter.CTk):
     def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class=None,
                     speed=None, resistances=None,
                     damage_immunities=None, damage_vulnerabilities=None,
-                    condition_immunities=None):
+                    condition_immunities=None, monster_skills = None):
         for i in range(1, num_monsters + 1):
             monster = f"{monster_name}{i}"
             health = calculate_health(average_health)
@@ -224,6 +225,7 @@ class InitiativeTracker(customtkinter.CTk):
             # Using a dictionary to store monster attributes
             monster_attributes = {
                 "initiative": initiative,
+                "dex_modifier": initiative_modifier,
                 "health": health,
                 "type": monster_type,
                 "armor_class": armor_class,
@@ -231,7 +233,8 @@ class InitiativeTracker(customtkinter.CTk):
                 "resistances": resistances,
                 "damage_immunities": damage_immunities,
                 "damage_vulnerabilities": damage_vulnerabilities,
-                "condition_immunities": condition_immunities
+                "condition_immunities": condition_immunities,
+                "skills": monster_skills
             }
 
             self.initial_values[monster] = monster_attributes
@@ -243,6 +246,13 @@ class InitiativeTracker(customtkinter.CTk):
 
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
+
+    def refresh_display(self):
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
+        print(sorted_initial_values)
+        self.update_initiative_text(sorted_initial_values)  # Ensure you pass the right sorted_initial_values
 
 if __name__ == "__main__":
     app = InitiativeTracker()

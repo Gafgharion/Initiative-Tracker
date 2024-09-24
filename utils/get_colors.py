@@ -34,15 +34,16 @@ def get_condition_color(status_type):
     }
 
     # Convert input to lowercase for case-insensitive comparison
-    status_type = status_type.lower()
+    if isinstance(status_type, str):
+        status_type = status_type.lower()
 
-    # Check if the status is a damage type
-    if status_type in damage_colors:
-        return damage_colors[status_type]
+        # Check if the status is a damage type
+        if status_type in damage_colors:
+            return damage_colors[status_type]
 
-    # Check if the status is a condition
-    elif status_type in condition_colors:
-        return condition_colors[status_type]
+        # Check if the status is a condition
+        elif status_type in condition_colors:
+            return condition_colors[status_type]
 
     # If the status doesn't match anything, return None or a default color
     return None
