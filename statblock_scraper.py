@@ -3,6 +3,13 @@ import webbrowser
 from bs4 import BeautifulSoup
 import re
 
+from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
+
 
 async def get_statblock_html(creature_name):
     if " " in creature_name:
@@ -77,10 +84,41 @@ async def get_statblock(creature_name):
     except Exception as e:
         print(f"Error parsing statblock: {e}")
         return None
-def open_statblock(creature_type):
+def open_statblock(creature_type, driver):
     creature_type = strip_numbers(creature_type)
     url = f'https://5ecompendium.github.io/bestiary/creature/{creature_type}'
-    webbrowser.open(url)
+
+    # Specify the path to the GeckoDriver executable
+    if driver is None:
+        gecko_driver_path = './utils/gecko_driver/geckodriver.exe'  # Change this to your geckodriver path
+
+        # Start a Selenium WebDriver session with Firefox
+        service = Service(executable_path=gecko_driver_path)
+        driver = webdriver.Firefox(service=service)
+
+    # Check if the URL is already open in any tab
+    found = False
+    for handle in driver.window_handles:
+        driver.switch_to.window(handle)
+        if driver.current_url == url:
+            found = True
+            break
+
+    # If not found, open the URL in a new tab
+    if not found:
+        driver.get(url)
+
+        # Optionally, wait for a specific element to ensure the page is loaded
+        try:
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+        except TimeoutException:
+            print("Page load timed out!")
+
+    # Focus back on the found or newly opened tab
+    if found:
+        driver.switch_to.window(handle)
+
+    return driver
 
 def strip_numbers(creature_type):
     creature_type_clean = re.sub(r'\d+', '', creature_type)

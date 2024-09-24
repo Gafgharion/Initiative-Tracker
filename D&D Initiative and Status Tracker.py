@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import customtkinter
+import pygetwindow as gw
+from selenium.common.exceptions import WebDriverException
 
 from add_monster_window import MonsterWindow
 from utils.file_import import read_data_file
@@ -100,6 +102,7 @@ class InitiativeTracker(customtkinter.CTk):
 
         self.status_labels = {}  # Store references to status labels
         self.header_mappings = {}
+        self.firefox_driver = None
 
     def on_player_selected(self, event):
         selected_value = self.combobox.get()
@@ -220,7 +223,7 @@ class InitiativeTracker(customtkinter.CTk):
             # Show statblock Button
             if participant not in self.characters.keys():
                 customtkinter.CTkButton(self.main_frame, text="Statblock", width=60,
-                                    command= lambda p=participant: open_statblock(p)).grid(
+                                    command= lambda p=participant: self.on_statblock_click(p)).grid(
                 column=6, row=row_count, padx=5, pady=5)
 
             # Dynamically add additional attributes as columns if they exist
@@ -244,6 +247,25 @@ class InitiativeTracker(customtkinter.CTk):
             del self.current_health[participant]
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
+
+    def on_statblock_click(self, participant):
+
+        if self.firefox_driver:
+            try:
+                self.firefox_driver = open_statblock(participant, self.firefox_driver)
+                # Switch to the last active tab
+                self.firefox_driver.switch_to.window(self.firefox_driver.window_handles[-1])
+
+                # Bring the Firefox window to the front
+                window = gw.getWindowsWithTitle('Mozilla Firefox')[0]  # Adjust the title if needed
+                if window:
+                    window.activate()  # Bring the window to the front
+
+            except WebDriverException:
+                self.firefox_driver = None  # Reset the driver if there's an issue
+                self.firefox_driver = open_statblock(participant, self.firefox_driver)
+        else:
+            self.firefox_driver = open_statblock(participant, self.firefox_driver)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
