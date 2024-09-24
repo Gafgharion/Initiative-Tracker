@@ -11,6 +11,7 @@ from utils.calculate_health import calculate_health
 from utils.get_colors import get_condition_color
 from status_window import open_status_window
 from monster_checks.roll_stealth import roll_stealth
+from monster_checks.check_detection import check_for_detection
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -88,6 +89,8 @@ class InitiativeTracker(customtkinter.CTk):
         self.status_lists = {}
         self.current_health = {}
         self.player_passive_perceptions = {}
+        self.detected_characters = []
+        self.spotting_characters = []
 
         self.status_labels = {}  # Store references to status labels
         self.header_mappings = {}
@@ -123,6 +126,8 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=20, rowspan=5)
         self.main_frame.grid_rowconfigure(5, weight=1)
 
+        print(self.detected_characters)
+        print(self.spotting_characters)
         # Define initial headers
         headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth"]
 
@@ -144,9 +149,18 @@ class InitiativeTracker(customtkinter.CTk):
         row_count = 1
         for participant, attributes in sorted_initial_values:
             row_count += 1
-
+            if participant in self.detected_characters:
+                detection_color = "red"
+            elif participant in self.spotting_characters:
+                detection_color = "green"
+            else:
+                detection_color = "transparent"
+            if participant not in self.detected_characters and attributes.get("current_stealth"):
+                hidden_color = "purple"
+            else:
+                hidden_color = "transparent"
             # Display Participant name
-            customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=0, row=row_count, sticky="w",
+            customtkinter.CTkLabel(master=self.main_frame, text=participant, fg_color=detection_color).grid(column=0, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
 
             # Display Initiative value
@@ -198,7 +212,14 @@ class InitiativeTracker(customtkinter.CTk):
             # Dynamically add additional attributes as columns if they exist
             for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=6):  # Start after basic columns
                 value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
-                customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
+                if key == "current_stealth":
+                    if value != "-":
+                        value = str(value) + "(undetected)"
+                    customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
+                                           fg_color=hidden_color).grid(column=col_offset, row=row_count,
+                                                                                     padx=5, pady=5)
+                else:
+                    customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
                                        fg_color=get_condition_color(value)).grid(column=col_offset, row=row_count,
                                                                                  padx=5, pady=5)
 
@@ -258,8 +279,8 @@ class InitiativeTracker(customtkinter.CTk):
     def refresh_display(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
+        self.detected_characters, self.spotting_characters = check_for_detection(self.initial_values)
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
-        print(sorted_initial_values)
         self.update_initiative_text(sorted_initial_values)  # Ensure you pass the right sorted_initial_values
 
 if __name__ == "__main__":
