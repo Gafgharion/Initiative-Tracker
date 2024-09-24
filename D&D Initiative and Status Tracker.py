@@ -49,7 +49,12 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_forget()
 
         # defining the input variables for the players
-        self.characters = {"Nareina": "0", "Arantarr": "13", "Ars": "0", "Qyiana": "0"}
+        self.characters = {
+            "Nareina": {"passive_perception": "14", "armor_class": "15", "saving_throws": "Str +1, Dex +5, Con +1, Int +0, Wis +2, Cha +1"},
+            "Arantarr": {"passive_perception": "13", "armor_class": "15", "saving_throws": ""},
+            "Ars": {"passive_perception": "0", "armor_class": "15", "saving_throws": ""},
+            "Qyiana": {"passive_perception": "0", "armor_class": "15", "saving_throws": ""}
+        }
 
         self.combobox = ttk.Combobox(
             self.sidebar_frame,
@@ -103,15 +108,19 @@ class InitiativeTracker(customtkinter.CTk):
         participant = self.combobox.get()
         initiative = int(self.participant_initiative_entry.get())
         health = int(self.participant_health_entry.get())
-        passive_perception = self.characters.get(participant)
-        type = "humanoid"
+        passive_perception = self.characters[participant]["passive_perception"]
+        armor_class = self.characters[participant]["armor_class"]
+        saving_throws = self.characters[participant]["saving_throws"]
+        player_type = "humanoid"
 
         # Update or add participant in the initial_values dictionary
         self.initial_values[participant] = {
             "initiative": initiative,
             "health": health,
-            "type": type,
-            "passive_perception": passive_perception
+            "type": player_type,
+            "passive_perception": passive_perception,
+            "armor_class": armor_class,
+            "saving_throws": saving_throws
         }
         self.current_health[participant] = health
 
@@ -213,7 +222,7 @@ class InitiativeTracker(customtkinter.CTk):
             for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=6):  # Start after basic columns
                 value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
                 if key == "current_stealth":
-                    if value != "-":
+                    if value != "-" and participant not in self.detected_characters:
                         value = str(value) + "(undetected)"
                     customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
                                            fg_color=hidden_color).grid(column=col_offset, row=row_count,

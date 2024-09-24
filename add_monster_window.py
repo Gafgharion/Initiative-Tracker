@@ -203,7 +203,6 @@ class MonsterWindow(customtkinter.CTk):
                     name, value = skill.split(' ')
                     # Add to the dictionary
                     self.skills[name] = value
-            print(self.skills)
             self.after(100, self.num_monsters_entry.focus_force)
 
 
