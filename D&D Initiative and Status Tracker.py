@@ -87,7 +87,11 @@ class InitiativeTracker(customtkinter.CTk):
         type = "humanoid"
 
         # Update or add participant in the initial_values dictionary
-        self.initial_values[participant] = (initiative, health, type)
+        self.initial_values[participant] = {
+            "initiative": initiative,
+            "health": health,
+            "type": type
+        }
         self.current_health[participant] = health
 
         # Sort the dictionary by initiative and convert back to a sorted list
@@ -108,8 +112,11 @@ class InitiativeTracker(customtkinter.CTk):
         customtkinter.CTkLabel(master=self.main_frame, text="Delete Button").grid(column=5, row=0, padx=5, pady=5)
 
         row_count = 1
-        for participant, (initiative, health, type) in sorted_initial_values:
+        for participant, attributes in sorted_initial_values:
             row_count += 1
+            initiative = attributes["initiative"]
+            health = attributes["health"]
+            monster_type = attributes["type"]
             customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=1, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
             customtkinter.CTkLabel(master=self.main_frame, text=initiative).grid(column=2, row=row_count, padx=5,
@@ -159,7 +166,7 @@ class InitiativeTracker(customtkinter.CTk):
             del self.initial_values[participant]
         if participant in self.current_health:
             del self.current_health[participant]
-        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1][0], reverse=True)
+        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
@@ -173,37 +180,36 @@ class InitiativeTracker(customtkinter.CTk):
         monster_window = MonsterWindow(self, self.add_monster)
         monster_window.mainloop()
 
-    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class= None,
-                    speed = None, resistances = None,
-                    damage_immunities = None, damage_vulnerabilities = None,
-                    condition_immunities =None):
+    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class=None,
+                    speed=None, resistances=None,
+                    damage_immunities=None, damage_vulnerabilities=None,
+                    condition_immunities=None):
         for i in range(1, num_monsters + 1):
             monster = f"{monster_name}{i}"
             health = calculate_health(average_health)
             initiative = random.randint(1, 20) + initiative_modifier
-            monster_attributes = [initiative, health, monster_type]
 
-          #if armor_class is not None:
-           #     monster_attributes.append(armor_class)
-            #if resistances is not None:
-             #   monster_attributes.append(resistances)
-            #if speed is not None:
-             #   monster_attributes.append(speed)
-            #if damage_immunities is not None:
-             #   monster_attributes.append(damage_immunities)
-            #if damage_vulnerabilities is not None:
-             #   monster_attributes.append(damage_vulnerabilities)
-            #if condition_immunities is not None:
-             #   monster_attributes.append(condition_immunities)
+            # Using a dictionary to store monster attributes
+            monster_attributes = {
+                "initiative": initiative,
+                "health": health,
+                "type": monster_type,
+                "armor_class": armor_class,
+                "speed": speed,
+                "resistances": resistances,
+                "damage_immunities": damage_immunities,
+                "damage_vulnerabilities": damage_vulnerabilities,
+                "condition_immunities": condition_immunities
+            }
 
-            self.initial_values[monster] = tuple(monster_attributes)
+            self.initial_values[monster] = monster_attributes
             print(self.initial_values[monster])
             self.current_health[monster] = health
 
         if self.status_lists.get(monster_type.lower()) is None:
             read_data_file(monster_type, self.status_lists)
 
-        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1][0], reverse=True)
+        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
 
 if __name__ == "__main__":

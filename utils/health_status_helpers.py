@@ -8,7 +8,7 @@ def write_current_health(participant, health_entry, current_health, status_label
     current_health[participant] = int(health_entry.get())
 
     # Get the maximum health for the participant (assuming it's stored in initial_values)
-    maximum_health = initial_values[participant][1]
+    maximum_health = initial_values[participant]["health"]
 
     # Update the button color based on the new health status
     status_color = get_health_status_color_indicator(current_health[participant], maximum_health)

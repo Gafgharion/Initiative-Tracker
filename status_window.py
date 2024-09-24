@@ -9,7 +9,7 @@ def open_status_window(participant, current_health, initial_values, status_strin
 
     # Calculate health percentage
     current_hitpoints = current_health.get(participant)
-    max_hitpoints = initial_values[participant][1]
+    max_hitpoints = initial_values[participant]["health"]
     health_percentage = (current_hitpoints / max_hitpoints) * 100 if max_hitpoints > 0 else 0
 
     # Get health status string and color
