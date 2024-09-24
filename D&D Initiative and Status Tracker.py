@@ -147,6 +147,11 @@ class InitiativeTracker(customtkinter.CTk):
                     delayed_check_health_status(self, p, he, self.current_health, sl, self.initial_values))
             )
 
+            # Create Delete Button
+            customtkinter.CTkButton(self.main_frame, text="Delete this row", width=60,
+                                    command=lambda p=participant: self.delete_entry(p)).grid(column=5, row=row_count,
+                                                                                             padx=5, pady=5)
+
 
 
     def delete_entry(self, participant):
