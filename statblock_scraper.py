@@ -1,6 +1,7 @@
 import aiohttp
-import asyncio
+import webbrowser
 from bs4 import BeautifulSoup
+import re
 
 
 async def get_statblock_html(creature_name):
@@ -76,3 +77,14 @@ async def get_statblock(creature_name):
     except Exception as e:
         print(f"Error parsing statblock: {e}")
         return None
+def open_statblock(creature_type):
+    creature_type = strip_numbers(creature_type)
+    url = f'https://5ecompendium.github.io/bestiary/creature/{creature_type}'
+    webbrowser.open(url)
+
+def strip_numbers(creature_type):
+    creature_type_clean = re.sub(r'\d+', '', creature_type)
+    if " " in creature_type_clean:
+        creature_type_clean = creature_type_clean.replace(" ", "-")
+    creature_type_clean = creature_type_clean.lower().strip("#").strip("+")
+    return creature_type_clean

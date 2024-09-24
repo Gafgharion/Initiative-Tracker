@@ -12,6 +12,7 @@ from utils.get_colors import get_condition_color
 from status_window import open_status_window
 from monster_checks.roll_stealth import roll_stealth
 from monster_checks.check_detection import check_for_detection
+from statblock_scraper import open_statblock
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -136,7 +137,7 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_rowconfigure(5, weight=1)
 
         # Define initial headers
-        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth"]
+        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth", "Statblock"]
 
         # Collect all additional keys and update header_mappings
         for _, attributes in sorted_initial_values:
@@ -216,8 +217,14 @@ class InitiativeTracker(customtkinter.CTk):
                                                                                refresh_callback=self.refresh_display)).grid(
                 column=5, row=row_count, padx=5, pady=5)
 
+            # Show statblock Button
+            if participant not in self.characters.keys():
+                customtkinter.CTkButton(self.main_frame, text="Statblock", width=60,
+                                    command= lambda p=participant: open_statblock(p)).grid(
+                column=6, row=row_count, padx=5, pady=5)
+
             # Dynamically add additional attributes as columns if they exist
-            for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=6):  # Start after basic columns
+            for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=7):  # Start after basic columns
                 value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
                 if key == "current_stealth":
                     if value != "-" and participant not in self.detected_characters:
