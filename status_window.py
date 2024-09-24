@@ -13,7 +13,7 @@ def open_status_window(participant, current_health, initial_values, status_strin
     health_percentage = (current_hitpoints / max_hitpoints) * 100 if max_hitpoints > 0 else 0
 
     # Get health status string and color
-    health_status, color = get_random_status_string(health_percentage, type=initial_values[participant][2], status_dict=status_strings_list)
+    health_status, color = get_random_status_string(health_percentage, type=initial_values[participant]["type"], status_dict=status_strings_list)
 
     # Create label to display health status
     status_label = ctk.CTkLabel(status_window, text=health_status, fg_color=color, font=("Arial", 25))

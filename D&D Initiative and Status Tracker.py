@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import random
 import customtkinter
 
@@ -7,6 +8,7 @@ from utils.file_import import read_data_file
 from get_status_string import get_random_status_string
 from utils.health_status_helpers import delayed_check_health_status, get_status_string_and_color, get_health_status_color_indicator
 from utils.calculate_health import calculate_health
+from utils.get_colors import get_condition_color
 from status_window import open_status_window
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -45,8 +47,16 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_forget()
 
         # defining the input variables for the players
-        self.participant_name_entry = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="Player Name")
-        self.participant_name_entry.grid(row=3, column=0, padx=20, pady=10)
+        self.player_options = ["Nareina", "Arantarr", "Ars", "Qyiana"]
+
+        self.combobox = ttk.Combobox(
+            self.sidebar_frame,
+            values=self.player_options,
+            state="normal"  # Allows both typing and selecting
+        )
+        self.combobox.grid(row=3, column=0, padx=20, pady=10)
+        self.combobox.bind("<<ComboboxSelected>>", self.on_player_selected)
+        self.combobox.set(self.player_options[0])
 
         self.participant_initiative_entry = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="Player Initiative")
         self.participant_initiative_entry.grid(row=4, column=0, padx=20, pady=10)
@@ -76,12 +86,16 @@ class InitiativeTracker(customtkinter.CTk):
         self.initial_values = {}  # dictionary with the following strucutre: {"name": (initiative, maximum_health, monster_type)}
         self.status_lists = {}
         self.current_health = {}
-        self.passive_perception_list = []
+        self.player_passive_perceptions = {}
 
         self.status_labels = {}  # Store references to status labels
 
+    def on_player_selected(self, event):
+        selected_value = self.combobox.get()
+        print(f"Selected player: {selected_value}")
+
     def add_player(self):
-        participant = self.participant_name_entry.get()
+        participant = self.combobox.get()
         initiative = int(self.participant_initiative_entry.get())
         health = int(self.participant_health_entry.get())
         type = "humanoid"
@@ -90,12 +104,13 @@ class InitiativeTracker(customtkinter.CTk):
         self.initial_values[participant] = {
             "initiative": initiative,
             "health": health,
-            "type": type
+            "type": type,
+            "passive_perception": "0"
         }
         self.current_health[participant] = health
 
         # Sort the dictionary by initiative and convert back to a sorted list
-        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1][0], reverse=True)
+        sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
 
         self.main_frame.destroy()
         self.update_initiative_text(sorted_initial_values)
@@ -104,47 +119,56 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame = customtkinter.CTkScrollableFrame(self, width=1000, height=1000, corner_radius=0)
         self.main_frame.grid(row=0, column=1, sticky="nsew", padx=30, pady=20, rowspan=5)
         self.main_frame.grid_rowconfigure(5, weight=1)
-        customtkinter.CTkLabel(master=self.main_frame, text="Participant").grid(column=1, row=0, sticky="w", padx=5,
-                                                                                pady=5)
-        customtkinter.CTkLabel(master=self.main_frame, text="Initiative").grid(column=2, row=0, padx=5, pady=5)
-        customtkinter.CTkLabel(master=self.main_frame, text="Health").grid(column=3, row=0, padx=5, pady=5)
-        customtkinter.CTkLabel(master=self.main_frame, text="Health Status").grid(column=4, row=0, padx=5, pady=5)
-        customtkinter.CTkLabel(master=self.main_frame, text="Delete Button").grid(column=5, row=0, padx=5, pady=5)
+
+        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button"]
+
+        all_additional_keys = set()
+        for _, attributes in sorted_initial_values:
+            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type"]]
+            all_additional_keys.update(additional_keys)
+
+        headers.extend(sorted(all_additional_keys))  # Add sorted additional keys to headers
+
+        # Display headers
+        for col, header in enumerate(headers):
+            customtkinter.CTkLabel(master=self.main_frame, text=header).grid(column=col, row=0, sticky="w", padx=5,
+                                                                             pady=5)
+
+        for col, header in enumerate(headers):
+            customtkinter.CTkLabel(master=self.main_frame, text=header).grid(column=col, row=0, sticky="w", padx=5,
+                                                                             pady=5)
 
         row_count = 1
         for participant, attributes in sorted_initial_values:
             row_count += 1
             initiative = attributes["initiative"]
             health = attributes["health"]
-            monster_type = attributes["type"]
-            customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=1, row=row_count, sticky="w",
+
+            # Display Participant name
+            customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=0, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
-            customtkinter.CTkLabel(master=self.main_frame, text=initiative).grid(column=2, row=row_count, padx=5,
+
+            # Display Initiative value
+            customtkinter.CTkLabel(master=self.main_frame, text=initiative).grid(column=1, row=row_count, padx=5,
                                                                                  pady=5)
 
             # Health entry widget
             health_entry = tk.StringVar()
             health_entry_widget = customtkinter.CTkEntry(master=self.main_frame, textvariable=health_entry, width=50)
-            if participant in self.current_health:
-                health_entry_widget.insert(0, str(self.current_health[participant]))
-            else:
-                health_entry_widget.insert(0, str(health))
-            health_entry_widget.grid(column=3, row=row_count, padx=5, pady=5)
+            health_entry_widget.insert(0, str(self.current_health.get(participant, health)))
+            health_entry_widget.grid(column=2, row=row_count, padx=5, pady=5)
 
-            # Status label reference
+            # Health Status button
             status_label = customtkinter.CTkButton(
                 master=self.main_frame,
                 text="HP Indicator",
                 command=lambda p=participant: open_status_window(p, self.current_health, self.initial_values,
                                                                  self.status_lists)
             )
-            status_label.grid(column=4, row=row_count, sticky="w", padx=5, pady=5)
+            status_label.grid(column=3, row=row_count, sticky="w", padx=5, pady=5)
 
-            # Set initial color
-            status_color = get_health_status_color_indicator(
-                self.current_health.get(participant, health),
-                health
-            )
+            # Set initial status color
+            status_color = get_health_status_color_indicator(self.current_health.get(participant, health), health)
             status_label.configure(fg_color=status_color)
 
             # Attach callback for health_entry change
@@ -155,9 +179,17 @@ class InitiativeTracker(customtkinter.CTk):
             )
 
             # Create Delete Button
-            customtkinter.CTkButton(self.main_frame, text="Delete this row", width=60,
-                                    command=lambda p=participant: self.delete_entry(p)).grid(column=5, row=row_count,
+            customtkinter.CTkButton(self.main_frame, text="Delete", width=60,
+                                    command=lambda p=participant: self.delete_entry(p)).grid(column=4, row=row_count,
                                                                                              padx=5, pady=5)
+
+            # Dynamically add additional attributes as columns if they exist
+            additional_keys = [key for key in attributes.keys() if key not in ["initiative", "health", "type"]]
+            for col_offset, key in enumerate(additional_keys, start=5):  # Start after basic columns
+                value = attributes[key]
+                customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-", fg_color = get_condition_color(value)).grid(column=col_offset,
+                                                                                                  row=row_count, padx=5,
+                                                                                                  pady=5)
 
 
 
