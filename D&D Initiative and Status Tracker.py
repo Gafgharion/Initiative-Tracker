@@ -54,9 +54,9 @@ class InitiativeTracker(customtkinter.CTk):
         # defining the input variables for the players
         self.characters = {
             "Nareina": {"passive_perception": "14", "armor_class": "15", "saving_throws": "Str +1, Dex +5, Con +1, Int +0, Wis +2, Cha +1"},
-            "Arantarr": {"passive_perception": "13", "armor_class": "15", "saving_throws": ""},
-            "Ars": {"passive_perception": "0", "armor_class": "15", "saving_throws": ""},
-            "Qyiana": {"passive_perception": "0", "armor_class": "15", "saving_throws": ""}
+            "Arantarr": {"passive_perception": "13", "armor_class": "18", "saving_throws": ""},
+            "Ars": {"passive_perception": "12", "armor_class": "13", "saving_throws": ""},
+            "Qyiana": {"passive_perception": "10", "armor_class": "12", "saving_throws": ""}
         }
 
         self.combobox = ttk.Combobox(
