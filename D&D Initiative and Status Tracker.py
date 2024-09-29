@@ -310,7 +310,7 @@ class InitiativeTracker(customtkinter.CTk):
         for i in range(1, num_monsters + 1):
             starting_count = highest_monster_count if highest_monster_count else 0
             # takes the name of Monster instead making it monster_name1 when only 1 is added
-            if num_monsters == 1:
+            if num_monsters == 1 and not highest_monster_count:
                 monster = monster_name
             else:
                 monster = f"{monster_name}{i + starting_count}"
