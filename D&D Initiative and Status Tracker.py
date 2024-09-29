@@ -140,14 +140,14 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_rowconfigure(5, weight=1)
 
         # Define initial headers
-        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth", "Statblock"]
+        headers = ["Participant", "Initiative", "Health", "Status", "Delete", "Hide", "Statblock"]
 
         # Collect all additional keys and update header_mappings
         for _, attributes in sorted_initial_values:
             for key in attributes.keys():
                 if key not in self.header_mappings and key not in ["initiative", "health", "type", "skills",
                                                                    "dex_modifier"]:
-                    self.header_mappings[key] = key  # You can map to a more friendly display name if needed
+                    self.header_mappings[key] = key
 
         # Create headers
         dynamic_headers = headers + sorted(self.header_mappings.keys())
@@ -160,18 +160,8 @@ class InitiativeTracker(customtkinter.CTk):
         row_count = 1
         for participant, attributes in sorted_initial_values:
             row_count += 1
-            if participant in self.detected_characters:
-                detection_color = "red"
-            elif participant in self.spotting_characters:
-                detection_color = "green"
-            else:
-                detection_color = "transparent"
-            if participant not in self.detected_characters and attributes.get("current_stealth"):
-                hidden_color = "purple"
-            else:
-                hidden_color = "transparent"
             # Display Participant name
-            customtkinter.CTkLabel(master=self.main_frame, text=participant, fg_color=detection_color).grid(column=0, row=row_count, sticky="w",
+            customtkinter.CTkLabel(master=self.main_frame, text=participant).grid(column=0, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
 
             # Display Initiative value
@@ -191,7 +181,8 @@ class InitiativeTracker(customtkinter.CTk):
             # Health Status button
             status_label = customtkinter.CTkButton(
                 master=self.main_frame,
-                text="HP Indicator",
+                text="HP",
+                width = 60,
                 command=lambda p=participant: open_status_window(p, self.current_health, self.initial_values,
                                                                  self.status_lists)
             )
@@ -215,7 +206,7 @@ class InitiativeTracker(customtkinter.CTk):
                                                                                              padx=5, pady=5)
 
             # Roll Stealth Button
-            customtkinter.CTkButton(self.main_frame, text="Roll Stealth", width=60,
+            customtkinter.CTkButton(self.main_frame, text="Hide", width=60,
                                     command=lambda p=participant: roll_stealth(p, self.initial_values,
                                                                                refresh_callback=self.refresh_display)).grid(
                 column=5, row=row_count, padx=5, pady=5)
@@ -231,10 +222,21 @@ class InitiativeTracker(customtkinter.CTk):
                 value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
                 if key == "current_stealth":
                     if value != "-" and participant not in self.detected_characters:
-                        value = str(value) + "(undetected)"
+                        stealth_color = "purple"
+                    elif value != "-" and participant in self.detected_characters:
+                        stealth_color = "red"
+                    else: stealth_color = "transparent"
                     customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
-                                           fg_color=hidden_color).grid(column=col_offset, row=row_count,
+                                           fg_color=stealth_color).grid(column=col_offset, row=row_count,
                                                                                      padx=5, pady=5)
+                elif key == "passive_perception":
+                    if value != "-" and participant in self.spotting_characters:
+                        percecption_color = "green"
+                    else: percecption_color = "transparent"
+                    customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
+                                           fg_color=percecption_color).grid(column=col_offset, row=row_count,
+                                                                                     padx=5, pady=5)
+
                 else:
                     customtkinter.CTkLabel(master=self.main_frame, text=value if value else "-",
                                        fg_color=get_condition_color(value)).grid(column=col_offset, row=row_count,
