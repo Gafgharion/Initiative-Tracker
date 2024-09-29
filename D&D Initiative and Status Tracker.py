@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import customtkinter
+
 import pygetwindow as gw
 from selenium.common.exceptions import WebDriverException
 
@@ -104,6 +105,8 @@ class InitiativeTracker(customtkinter.CTk):
         self.header_mappings = {}
         self.firefox_driver = None
 
+
+
     def on_player_selected(self, event):
         selected_value = self.combobox.get()
         print(f"Selected player: {selected_value}")
@@ -112,6 +115,7 @@ class InitiativeTracker(customtkinter.CTk):
         participant = self.combobox.get()
         initiative = int(self.participant_initiative_entry.get())
         health = int(self.participant_health_entry.get())
+        advantage = 0
         passive_perception = self.characters[participant]["passive_perception"]
         armor_class = self.characters[participant]["armor_class"]
         saving_throws = self.characters[participant]["saving_throws"]
@@ -121,6 +125,7 @@ class InitiativeTracker(customtkinter.CTk):
         self.initial_values[participant] = {
             "initiative": initiative,
             "health": health,
+            "advantage": advantage,
             "type": player_type,
             "passive_perception": passive_perception,
             "armor_class": armor_class,
@@ -140,7 +145,7 @@ class InitiativeTracker(customtkinter.CTk):
         self.main_frame.grid_rowconfigure(5, weight=1)
 
         # Define initial headers
-        headers = ["Participant", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth", "Statblock"]
+        headers = ["Participant","Advantage", "Initiative", "Health", "Health Status", "Delete Button", "Roll Stealth", "Statblock"]
 
         # Collect all additional keys and update header_mappings
         for _, attributes in sorted_initial_values:
@@ -151,6 +156,8 @@ class InitiativeTracker(customtkinter.CTk):
 
         # Create headers
         dynamic_headers = headers + sorted(self.header_mappings.keys())
+
+
 
         # Display headers
         for col, header in enumerate(dynamic_headers):
@@ -173,13 +180,25 @@ class InitiativeTracker(customtkinter.CTk):
             # Display Participant name
             customtkinter.CTkLabel(master=self.main_frame, text=participant, fg_color=detection_color).grid(column=0, row=row_count, sticky="w",
                                                                                   padx=5, pady=5)
+            # display Advantage/Disadvantage
+            self.advantageBtn=      customtkinter.CTkButton(master=self.main_frame, text="advantage",fg_color="gray43")
+            self.advantageBtn.grid(column=1, row=row_count, padx=5, pady=5)
+            self.advantageBtn.configure(command=lambda button=self.advantageBtn: invertAdvantage(button))
+
+            self.advantageBtn.bind("<Button-3>", self.on_right_click)
+
+
+
+
 
             # Display Initiative value
-            customtkinter.CTkLabel(master=self.main_frame, text=attributes["initiative"]).grid(column=1, row=row_count,
+            customtkinter.CTkLabel(master=self.main_frame, text=attributes["initiative"]).grid(column=2, row=row_count,
                                                                                                padx=5, pady=5)
 
+
+
             # Display Health value
-            customtkinter.CTkLabel(master=self.main_frame, text=attributes["health"]).grid(column=2, row=row_count,
+            customtkinter.CTkLabel(master=self.main_frame, text=attributes["health"]).grid(column=3, row=row_count,
                                                                                            padx=5, pady=5)
 
             # Health entry widget
@@ -195,7 +214,7 @@ class InitiativeTracker(customtkinter.CTk):
                 command=lambda p=participant: open_status_window(p, self.current_health, self.initial_values,
                                                                  self.status_lists)
             )
-            status_label.grid(column=3, row=row_count, sticky="w", padx=5, pady=5)
+            status_label.grid(column=4, row=row_count, sticky="w", padx=5, pady=5)
 
             # Set initial status color
             status_color = get_health_status_color_indicator(self.current_health.get(participant, attributes["health"]),
@@ -211,23 +230,23 @@ class InitiativeTracker(customtkinter.CTk):
 
             # Create Delete Button
             customtkinter.CTkButton(self.main_frame, text="Delete", width=60,
-                                    command=lambda p=participant: self.delete_entry(p)).grid(column=4, row=row_count,
+                                    command=lambda p=participant: self.delete_entry(p)).grid(column=5, row=row_count,
                                                                                              padx=5, pady=5)
 
             # Roll Stealth Button
             customtkinter.CTkButton(self.main_frame, text="Roll Stealth", width=60,
                                     command=lambda p=participant: roll_stealth(p, self.initial_values,
                                                                                refresh_callback=self.refresh_display)).grid(
-                column=5, row=row_count, padx=5, pady=5)
+                column=6, row=row_count, padx=5, pady=5)
 
             # Show statblock Button
             if participant not in self.characters.keys():
                 customtkinter.CTkButton(self.main_frame, text="Statblock", width=60,
                                     command= lambda p=participant: self.on_statblock_click(p)).grid(
-                column=6, row=row_count, padx=5, pady=5)
+                column=7, row=row_count, padx=5, pady=5)
 
             # Dynamically add additional attributes as columns if they exist
-            for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=7):  # Start after basic columns
+            for col_offset, key in enumerate(sorted(self.header_mappings.keys()), start=8):  # Start after basic columns
                 value = attributes.get(key, "-")  # Default to "-" if key doesn't exist
                 if key == "current_stealth":
                     if value != "-" and participant not in self.detected_characters:
@@ -266,6 +285,8 @@ class InitiativeTracker(customtkinter.CTk):
                 self.firefox_driver = open_statblock(participant, self.firefox_driver)
         else:
             self.firefox_driver = open_statblock(participant, self.firefox_driver)
+
+
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -317,6 +338,27 @@ class InitiativeTracker(customtkinter.CTk):
         self.detected_characters, self.spotting_characters = check_for_detection(self.initial_values)
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)  # Ensure you pass the right sorted_initial_values
+
+    def on_right_click(self, event):
+        button = event.widget
+        ##fg_color geht in diesem zusammehnag nicht?
+        button.configure(bg="gray43",text="Normal")
+
+
+
+
+
+def invertAdvantage(self):
+    actualColor= self.cget("fg_color")
+    if actualColor == "gray43":
+        self.configure(fg_color = "red",text= "Disadvantage")
+
+    elif actualColor == "red":
+        self.configure(fg_color="green", text="Advantage")
+
+    elif actualColor== "green":
+        self.configure(fg_color="red", text="Disadvantage")
+
 
 if __name__ == "__main__":
     app = InitiativeTracker()
