@@ -4,6 +4,7 @@ import random
 import customtkinter
 import pygetwindow as gw
 from selenium.common.exceptions import WebDriverException
+import re
 
 from add_monster_window import MonsterWindow
 from utils.file_import import read_data_file
@@ -248,6 +249,18 @@ class InitiativeTracker(customtkinter.CTk):
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
 
+    def find_highest_monster_count(self, list_of_input_strings):
+        numbers = []
+
+        # Extract numbers from each string and convert them to integers
+        for string in list_of_input_strings:
+            found_numbers = re.findall(r"\d+", string)
+            if found_numbers:
+                numbers.extend(map(int, found_numbers))  # Convert extracted numbers to int
+
+        # Return the maximum number found (or 0 if no numbers found)
+        return max(numbers) if numbers else 1
+
     def on_statblock_click(self, participant):
 
         if self.firefox_driver:
@@ -282,8 +295,26 @@ class InitiativeTracker(customtkinter.CTk):
                     speed=None, resistances=None,
                     damage_immunities=None, damage_vulnerabilities=None,
                     condition_immunities=None, monster_skills = None):
+        # check if monster is new or additional and sets a flag accordingly
+        current_participants = self.initial_values.keys()
+        list_of_monsters_with_same_name = [
+            monster for monster in current_participants
+            if re.match(rf"{re.escape(monster_name)}\d*$", monster)
+            # Matches 'monster_name' followed by optional digits
+        ]
+        highest_monster_count = 0
+
+        if list_of_monsters_with_same_name:
+            highest_monster_count = self.find_highest_monster_count(list_of_monsters_with_same_name)
+
         for i in range(1, num_monsters + 1):
-            monster = f"{monster_name}{i}"
+            starting_count = highest_monster_count if highest_monster_count else 0
+            # takes the name of Monster instead making it monster_name1 when only 1 is added
+            if num_monsters == 1:
+                monster = monster_name
+            else:
+                monster = f"{monster_name}{i + starting_count}"
+
             health = calculate_health(average_health)
             initiative = random.randint(1, 20) + initiative_modifier
 
