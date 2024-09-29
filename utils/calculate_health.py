@@ -4,6 +4,7 @@ import re
 def calculate_health(average_health):
     if average_health.isdigit():
         number = 0
+        average_health = int(average_health)
         while number == 0:
             number = random.randint(-1, 1)
             if number < 0:
