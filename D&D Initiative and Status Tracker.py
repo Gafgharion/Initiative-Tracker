@@ -4,11 +4,9 @@ import random
 import customtkinter
 import pygetwindow as gw
 from selenium.common.exceptions import WebDriverException
-import re
 
 from add_monster_window import MonsterWindow
 from utils.file_import import read_data_file
-from get_status_string import get_random_status_string
 from utils.health_status_helpers import delayed_check_health_status, get_status_string_and_color, get_health_status_color_indicator
 from utils.calculate_health import calculate_health
 from utils.get_colors import get_condition_color
@@ -16,6 +14,7 @@ from status_window import open_status_window
 from monster_checks.roll_stealth import roll_stealth
 from monster_checks.check_detection import check_for_detection
 from statblock_scraper import open_statblock
+from utils.participant_list_checker import get_starting_monster_count
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -249,18 +248,6 @@ class InitiativeTracker(customtkinter.CTk):
         sorted_initial_values = sorted(self.initial_values.items(), key=lambda x: x[1]["initiative"], reverse=True)
         self.update_initiative_text(sorted_initial_values)
 
-    def find_highest_monster_count(self, list_of_input_strings):
-        numbers = []
-
-        # Extract numbers from each string and convert them to integers
-        for string in list_of_input_strings:
-            found_numbers = re.findall(r"\d+", string)
-            if found_numbers:
-                numbers.extend(map(int, found_numbers))  # Convert extracted numbers to int
-
-        # Return the maximum number found (or 0 if no numbers found)
-        return max(numbers) if numbers else 1
-
     def on_statblock_click(self, participant):
 
         if self.firefox_driver:
@@ -295,17 +282,8 @@ class InitiativeTracker(customtkinter.CTk):
                     speed=None, resistances=None,
                     damage_immunities=None, damage_vulnerabilities=None,
                     condition_immunities=None, monster_skills = None):
-        # check if monster is new or additional and sets a flag accordingly
-        current_participants = self.initial_values.keys()
-        list_of_monsters_with_same_name = [
-            monster for monster in current_participants
-            if re.match(rf"{re.escape(monster_name)}\d*$", monster)
-            # Matches 'monster_name' followed by optional digits
-        ]
-        highest_monster_count = 0
 
-        if list_of_monsters_with_same_name:
-            highest_monster_count = self.find_highest_monster_count(list_of_monsters_with_same_name)
+        highest_monster_count = get_starting_monster_count(monster_name, self.initial_values)
 
         for i in range(1, num_monsters + 1):
             starting_count = highest_monster_count if highest_monster_count else 0
