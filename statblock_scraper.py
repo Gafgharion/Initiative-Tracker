@@ -68,6 +68,20 @@ async def get_statblock(creature_name):
         reactions = safe_extract('reactions')
         legendary_actions = safe_extract('legendary-actions')
 
+        # Extract monster XP
+        if important_info["Challenge"]:
+           # monster_exp = important_info["Challenge"][2:-1]
+            monster_exp=33
+        else:
+            monster_exp = 0
+
+
+
+
+
+
+
+
         # Compile the statblock
         monster_statblock = {
             "creature_name": creature_name,
@@ -76,9 +90,11 @@ async def get_statblock(creature_name):
             "important_info": important_info,
             "actions": actions,
             "reactions": reactions,
-            "legendary_actions": legendary_actions
+            "legendary_actions": legendary_actions,
+            "monster_exp": monster_exp
         }
 
+        print(f"tihi {monster_exp}")
         return monster_statblock
 
     except Exception as e:
@@ -126,3 +142,9 @@ def strip_numbers(creature_type):
         creature_type_clean = creature_type_clean.replace(" ", "-")
     creature_type_clean = creature_type_clean.lower().strip("#").strip("+")
     return creature_type_clean
+
+
+
+#{'creature_name': 'Ghoul', 'creature_type': 'Medium undead, chaotic evil', 'ability_scores': {'STR': '13 (+1)', 'DEX': '15 (+2)', 'CON': '10 (0)', 'INT': '7 (-2)', 'WIS': '10 (0)', 'CHA': '6 (-2)'},
+# 'important_info': {'Armor Class': '12', 'Hit Points': '22 (5d8)', 'Speed': '30 ft.', 'Condition Immunities': 'poisoned', 'Senses': 'darkvision 60 ft.', 'Languages': 'Common',
+# 'Challenge': '1 (200 XP)'}, 'actions': 'Bite. Melee Weapon Attack: +2 to hit, reach 5 ft., one creature. Hit: 9 (2d6 + 2) piercing damage.', 'reactions': 'Not available', 'legendary_actions': 'Not available'}

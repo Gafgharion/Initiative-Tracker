@@ -3,19 +3,24 @@ import customtkinter
 from statblock_scraper import get_statblock
 import asyncio
 
+
 class MonsterWindow(customtkinter.CTk):
     def __init__(self, parent, callback):
         super().__init__()
         self.skills = {}
-        self.title("Add Monster")
 
+        self.title("Add Monster")
+        self.monster_names = []
         self.monster_frame = customtkinter.CTkFrame(self, width=400, height=200, corner_radius=0)
         self.monster_frame.grid(row=0, column=0, sticky="nsew", padx=30, pady=10)
 
-        self.monster_name_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Monster Name" )
+        self.monster_name_entry = customtkinter.CTkEntry(self.monster_frame, placeholder_text="Monster Name")
         self.monster_name_entry.grid(row=1, column=0, sticky="nsew", padx=30, pady=10)
         self.monster_name_entry.bind("<KeyRelease>", self.show_import_button)
         self.monster_name_entry.bind("<Return>", self.on_enter)
+        self.monster_name_written_txt = None
+        self.monster_name_missing_txt = None
+        self.monster_name_entry.bind("<Any-KeyRelease>",self.autoFill)
         self.after(100, self.monster_name_entry.focus_force)
 
         # Import button (initially hidden)
@@ -127,6 +132,8 @@ class MonsterWindow(customtkinter.CTk):
                                                      command=self.submit)
         self.submit_button.grid(row=0, column=0, padx=30, pady=10)
 
+        self.getCreatureNameList()
+
 
         # TODO: rausfinden wie man in einer FUnktion variablen generierne, die in self zur Verfügung stehen, EIngabefeld für Spieler mit Typ und default = HUmanoid,
 
@@ -206,6 +213,57 @@ class MonsterWindow(customtkinter.CTk):
             self.after(100, self.num_monsters_entry.focus_force)
 
 
+    def autoFill(self,event,*args,**kwargs):
+
+        ## backspace/enter handling, if backspace we need to check since letter -1
+        if event.keysym == 'BackSpace':
+            if self.monster_name_written_txt:
+                if len(self.monster_name_written_txt) == 1:
+                    self.monster_name_written_txt = None
+                else:
+                    self.monster_name_written_txt = self.monster_name_written_txt[:-1]
+                    self.monster_name_entry.delete(0,customtkinter.END)
+                    self.monster_name_entry.insert(0,self.monster_name_written_txt)
+
+        elif event.keysym == 'Return':
+            self.sumbit(self.monster_name_entry.get())
+
+
+        # keep the txt variable uptodate
+        if self.monster_name_written_txt:
+            self.monster_name_written_txt =  self.monster_name_written_txt + str(event.char)
+        else:
+            self.monster_name_written_txt = event.char
+
+
+        # keep the missingTXT variable uptodate
+        if self.monster_name_written_txt and self.monster_name_missing_txt:
+            #self.writtenTxt= self.box.get() - str(self.missingTxt)
+            self.monster_name_written_txt.replace(self.monster_name_missing_txt,"")
+        else:
+            self.monster_name_written_txt = self.monster_name_entry.get()
+
+        if self.monster_name_written_txt:
+            for monsterName in self.monster_names :
+                if monsterName.startswith(self.monster_name_written_txt.lower()):
+                    self.monster_name_missing_txt = monsterName[len(self.monster_name_written_txt):]
+                    self.monster_name_entry.insert(len(self.monster_name_written_txt), self.monster_name_missing_txt)
+                    self.monster_name_entry.select_range(len(self.monster_name_written_txt), customtkinter.END)
+                    #break to check only 1 entry
+                    break
+
+        self.import_button.configure(text=f"Import {self.monster_name_entry.get()}")
+        print("Ende ", self.monster_name_written_txt)
+
+
+
+
+    def getCreatureNameList(self):
+        with open("CreatureNames.txt","r") as creatureNameFile:
+            content = creatureNameFile.read()
+        self.monster_names= content.split(",")
+        self.monster_names = [ele.strip() for ele in self.monster_names]
+        print(self.monster_names)
 
 
     def on_enter(self, event):

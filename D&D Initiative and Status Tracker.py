@@ -100,7 +100,7 @@ class InitiativeTracker(customtkinter.CTk):
         self.player_passive_perceptions = {}
         self.detected_characters = []
         self.spotting_characters = []
-
+        self.monster_exp= ""
         self.status_labels = {}  # Store references to status labels
         self.header_mappings = {}
         self.firefox_driver = None
@@ -153,6 +153,7 @@ class InitiativeTracker(customtkinter.CTk):
                 if key not in self.header_mappings and key not in ["initiative", "health", "type", "skills",
                                                                    "dex_modifier"]:
                     self.header_mappings[key] = key  # You can map to a more friendly display name if needed
+
 
         # Create headers
         dynamic_headers = headers + sorted(self.header_mappings.keys())
@@ -299,7 +300,7 @@ class InitiativeTracker(customtkinter.CTk):
         monster_window = MonsterWindow(self, self.add_monster)
         monster_window.mainloop()
 
-    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type, armor_class=None,
+    def add_monster(self, monster_name, initiative_modifier, num_monsters, average_health, monster_type,monster_exp, armor_class=None,
                     speed=None, resistances=None,
                     damage_immunities=None, damage_vulnerabilities=None,
                     condition_immunities=None, monster_skills = None):
@@ -320,7 +321,8 @@ class InitiativeTracker(customtkinter.CTk):
                 "damage_immunities": damage_immunities,
                 "damage_vulnerabilities": damage_vulnerabilities,
                 "condition_immunities": condition_immunities,
-                "skills": monster_skills
+                "skills": monster_skills,
+                "monster_exp": monster_exp
             }
 
             self.initial_values[monster] = monster_attributes
@@ -343,8 +345,6 @@ class InitiativeTracker(customtkinter.CTk):
         button = event.widget
         ##fg_color geht in diesem zusammehnag nicht?
         button.configure(bg="gray43",text="Normal")
-
-
 
 
 
