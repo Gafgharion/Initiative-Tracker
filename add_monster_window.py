@@ -226,7 +226,7 @@ class MonsterWindow(customtkinter.CTk):
                     self.monster_name_entry.insert(0,self.monster_name_written_txt)
 
         elif event.keysym == 'Return':
-            self.sumbit(self.monster_name_entry.get())
+            self.submit()
 
 
         # keep the txt variable uptodate
