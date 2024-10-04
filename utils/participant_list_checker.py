@@ -1,4 +1,6 @@
 import re
+
+
 def get_starting_monster_count(monster_name, initial_values):
     """
     Finds the highest monster count for a given monster name from the current participants.
@@ -6,7 +8,8 @@ def get_starting_monster_count(monster_name, initial_values):
     """
     current_participants = initial_values.keys()
     list_of_monsters_with_same_name = [
-        monster for monster in current_participants
+        monster
+        for monster in current_participants
         if re.match(rf"{re.escape(monster_name)}\d*$", monster)
         # Matches 'monster_name' followed by optional digits
     ]
@@ -14,6 +17,7 @@ def get_starting_monster_count(monster_name, initial_values):
     if list_of_monsters_with_same_name:
         return find_highest_monster_count(list_of_monsters_with_same_name)
     return 0
+
 
 def find_highest_monster_count(list_of_input_strings):
     numbers = []

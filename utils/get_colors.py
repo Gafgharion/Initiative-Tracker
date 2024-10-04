@@ -1,36 +1,36 @@
 def get_condition_color(status_type):
     # Define the color mappings for damage types and conditions
     damage_colors = {
-        'acid': 'green',
-        'bludgeoning': 'gray',
-        'cold': 'light blue',
-        'fire': 'red',
-        'force': 'purple',
-        'lightning': 'yellow',
-        'necrotic': 'black',
-        'piercing': 'gray',
-        'poison': 'dark green',
-        'psychic': 'pink',
-        'radiant': 'white',
-        'slashing': 'silver',
-        'thunder': 'yellow'
+        "acid": "green",
+        "bludgeoning": "gray",
+        "cold": "light blue",
+        "fire": "red",
+        "force": "purple",
+        "lightning": "yellow",
+        "necrotic": "black",
+        "piercing": "gray",
+        "poison": "dark green",
+        "psychic": "pink",
+        "radiant": "white",
+        "slashing": "silver",
+        "thunder": "yellow",
     }
 
     condition_colors = {
-        'blinded': 'dark gray',
-        'charmed': 'magenta',
-        'deafened': 'dark blue',
-        'frightened': 'orange',
-        'grappled': 'brown',
-        'incapacitated': 'gray',
-        'invisible': 'light gray',
-        'paralyzed': 'cyan',
-        'petrified': 'dark brown',
-        'poisoned': 'dark green',
-        'prone': 'olive',
-        'restrained': 'dark red',
-        'stunned': 'silver',
-        'unconscious': 'black'
+        "blinded": "dark gray",
+        "charmed": "magenta",
+        "deafened": "dark blue",
+        "frightened": "orange",
+        "grappled": "brown",
+        "incapacitated": "gray",
+        "invisible": "light gray",
+        "paralyzed": "cyan",
+        "petrified": "dark brown",
+        "poisoned": "dark green",
+        "prone": "olive",
+        "restrained": "dark red",
+        "stunned": "silver",
+        "unconscious": "black",
     }
 
     # Convert input to lowercase for case-insensitive comparison

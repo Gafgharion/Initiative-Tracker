@@ -9,7 +9,9 @@ def get_file_name(monster_type):
 # Function to get the file directory based on monster type
 def get_file_directory(monster_type):
     file_name = get_file_name(monster_type)
-    file_directory = os.path.join(os.path.dirname(os.path.dirname(__file__)), "monster_status_strings", file_name)
+    file_directory = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "monster_status_strings", file_name
+    )
     return file_directory
 
 
