@@ -229,6 +229,7 @@ class MonsterWindow(customtkinter.CTk):
 
         # TODO: rausfinden wie man in einer FUnktion variablen generierne, die in self zur Verfügung stehen, EIngabefeld für Spieler mit Typ und default = HUmanoid,
 
+        self.getCreatureNameList()
         self.callback = callback
 
     """this method defines the behaviour of the submit button which is used in the MonsterWIndow class. It reads out the values in the EntryWidgets, the radiobutton which was ticked and passes the values to the add_monster Method"""
