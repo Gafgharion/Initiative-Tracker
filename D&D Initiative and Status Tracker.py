@@ -46,11 +46,11 @@ class InitiativeTracker(customtkinter.CTk):
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(5, weight=1)
-        self.logo_label = customtkinter.CTkLabel(
+        self.logo_label = (customtkinter.CTkLabel(
             self.sidebar_frame,
             text="Add Monsters or Players",
             font=customtkinter.CTkFont(size=20, weight="bold"),
-        )
+        ))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.add_monster_button = customtkinter.CTkButton(
             self.sidebar_frame,
