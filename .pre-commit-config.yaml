@@ -1,0 +1,5 @@
+repos:
+  - repo: https://github.com/Gafgharion/Initiative-Tracker
+    rev: v24.8.0
+    hooks:
+      - id: black

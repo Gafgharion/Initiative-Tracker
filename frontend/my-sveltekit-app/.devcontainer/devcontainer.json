@@ -1,0 +1,21 @@
+{
+    "name": "Vite Sveltekit TypeScript Devimage",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+    
+    // Add recommended extensions
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "svelte.svelte-vscode",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+
+    // Forward the Vite port
+    "forwardPorts": [5173],
+
+    // Set Git line endings and install dependencies
+    "postCreateCommand": "npm install && git config --global core.autocrlf input && npm install -D svelte-check"
+}
