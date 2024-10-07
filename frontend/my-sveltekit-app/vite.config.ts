@@ -5,5 +5,14 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
+	},
+	server: {
+		host: '0.0.0.0',
+		port: 5173,
+		hmr: true,
+		watch: {
+			usePolling: true,
+			interval: 1000,
+		  },
+	  }
 });
