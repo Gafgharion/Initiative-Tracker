@@ -17,5 +17,8 @@
     "forwardPorts": [5173],
 
     // Set Git line endings and install dependencies
-    "postCreateCommand": "npm install && git config --global core.autocrlf input && npm install -D svelte-check"
+    "postCreateCommand": "npm install && git config --global core.autocrlf input && npm install -D svelte-check",
+    
+    // Set the user to root
+    "user": "root"
 }
